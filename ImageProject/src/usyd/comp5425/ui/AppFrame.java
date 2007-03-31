@@ -6,6 +6,8 @@
 
 package usyd.comp5425.ui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author  Yuezhong Zhang
@@ -46,6 +48,7 @@ public class AppFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AppFrame().setVisible(true);
+                System.out.printf("try");
             }
         });
     }

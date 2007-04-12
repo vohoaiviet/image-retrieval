@@ -16,51 +16,49 @@ import java.util.ArrayList;
 
 public class ConnectionPool{
     
-    private ArrayList _freePool;
-    private String _url;
-    private String _username;
-    private String _password;
-    private String _dbDriverName;
+    private ArrayList<Connection> freePool;
+    private String url;
+    private String username;
+    private String password;
+    private String dbDriverName;
     
     public ConnectionPool(){
-        _freePool = new ArrayList();
+        freePool = new ArrayList<Connection>();
     }
     
     public ConnectionPool(String connectURL, String uName,
             String pWord, String driverName){
         this();
-        _url = connectURL;
-        _username = uName;
-        _password = pWord;
-        _dbDriverName = driverName;
-        _createConnections(_url,_username,_password,_dbDriverName);
+        url = connectURL;
+        username = uName;
+        password = pWord;
+        dbDriverName = driverName;
+        createConnections(url,username,password,dbDriverName);
     }
     
     public synchronized Connection getConnection(){
-        if(_freePool.size() == 0){
+        if(freePool.size() == 0){
             //None Available
             //Create a new set of Connections
-            _createConnections(_url,_username,_password,_dbDriverName);
+            createConnections(url,username,password,dbDriverName);
         }
         //Last connection in the Array so that we save time on re-arranging the Array
-        return ((Connection)_freePool.remove(_freePool.size() - 1));
+        return ((Connection)freePool.remove(freePool.size() - 1));
     }
     
     public void closeConnection(Connection con){
-        System.out.println("Current size of Pool: "+_freePool.size());
-        _freePool.add(con);
-        System.out.println("Size of Pool after connection closed: "+
-                _freePool.size());
+        System.out.println("Current size of Pool: "+freePool.size());
+        freePool.add(con);
+        System.out.println("Size of Pool after connection closed: "+freePool.size());
     }
     
-    private void _createConnections
+    private void createConnections
             (String connectURL, String uName, String pWord, String driverName){
         try{
             Class.forName(driverName).newInstance();
-            for(int i=0; i<10; ++i){
-                Connection con = DriverManager.getConnection
-                        (connectURL,uName,pWord);
-                _freePool.add(con);
+            for(int i=0; i<3; ++i){
+                Connection con = DriverManager.getConnection(connectURL,uName,pWord);
+                freePool.add(con);
             }
         }catch(ClassNotFoundException ex){
             System.out.println(ex);
@@ -71,6 +69,16 @@ public class ConnectionPool{
         }catch(SQLException ex){
             System.out.println(ex);
         }
+    }
+    public void close(){
+        for(Connection con : freePool){
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                // ex.printStackTrace();
+            }
+        }
+        
     }
 }
 

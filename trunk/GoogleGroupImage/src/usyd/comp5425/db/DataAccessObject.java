@@ -101,7 +101,7 @@ public abstract class DataAccessObject implements DataTap{
             ex.printStackTrace();
             return null;
         }
-        return null;
+        return info;
     }
     public FeatureInfo getFeatureBy(int id){
         FeatureInfo info = null;

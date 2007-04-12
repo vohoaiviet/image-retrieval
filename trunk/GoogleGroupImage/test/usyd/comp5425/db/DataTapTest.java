@@ -7,6 +7,7 @@
 
 package usyd.comp5425.db;
 
+import java.io.File;
 import junit.framework.*;
 import java.util.Collection;
 import java.util.Vector;
@@ -22,6 +23,7 @@ public class DataTapTest extends TestCase {
     }
     
     protected void setUp() throws Exception {
+        System.out.println("setup");
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
@@ -29,7 +31,11 @@ public class DataTapTest extends TestCase {
     }
     
     protected void tearDown() throws Exception {
-       // DataTapFactory.close();
+        System.out.println("teardown");
+        DataTapFactory.close();
+        File file = new File("C:\\Sun\\myDb");
+        file.deleteOnExit();
+        
     }
     /**
      * Test of add method, of class usyd.comp5425.db.DataTap.
@@ -58,85 +64,82 @@ public class DataTapTest extends TestCase {
         System.out.println("getAllFeaturesID");
         DataTap  instance = DataTapFactory.createDataTap();
         
-        Collection expResult = null;
         Collection result = instance.getAllFeaturesID();
         for(Object obj : result){
-            System.out.println(obj);
+            // System.out.println(obj);
         }
         if(result.size() !=1000){
             fail("size not equals to 10000");
         }
     }
-//
-//    /**
-//     * Test of getAllFeaturesIDBy method, of class usyd.comp5425.db.DataTap.
-//     */
-//    public void testGetAllFeaturesIDBy() {
-//        System.out.println("getAllFeaturesIDBy");
-//
-//        String featureName = "";
-//        DataTap  instance = DataTapFactory.createDataTap();
-//
-//        Collection expResult = null;
-//        Collection result = instance.getAllFeaturesIDBy(featureName);
-//        assertEquals(expResult, result);
-//
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getFeatureBy method, of class usyd.comp5425.db.DataTap.
-//     */
-//    public void testGetFeatureBy() {
-//        System.out.println("getFeatureBy");
-//
-//        int id = 0;
-//        String featureName = "";
-//        DataTap  instance = DataTapFactory.createDataTap();
-//
-//        FeatureInfo expResult = null;
-//        FeatureInfo result = instance.getFeatureBy(id, featureName);
-//        assertEquals(expResult, result);
-//
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getFeaturesBy method, of class usyd.comp5425.db.DataTap.
-//     */
-//    public void testGetFeaturesBy() {
-//        System.out.println("getFeaturesBy");
-//
-//        String image = "";
-//        DataTap  instance = DataTapFactory.createDataTap();
-//
-//        Collection<FeatureInfo> expResult = null;
-//        Collection<FeatureInfo> result = instance.getFeaturesBy(image);
-//        assertEquals(expResult, result);
-//
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
     
-//
-//    /**
-//     * Test of remove method, of class usyd.comp5425.db.DataTap.
-//     */
-//    public void testRemove() {
-//        System.out.println("remove");
-//
-//        int id = 0;
-//        DataTap  instance = DataTapFactory.createDataTap();
-//
-//        boolean expResult = true;
-//        boolean result = instance.remove(id);
-//        assertEquals(expResult, result);
-//
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getAllFeaturesIDBy method, of class usyd.comp5425.db.DataTap.
+     */
+    public void testGetAllFeaturesIDBy() {
+        System.out.println("getAllFeaturesIDBy");
+        
+        String featureName = "";
+        DataTap  instance = DataTapFactory.createDataTap();
+        
+        Collection result = instance.getAllFeaturesIDBy(featureName);
+        this.assertTrue(result.size()==0);
+        
+        result = instance.getAllFeaturesIDBy("Hello");
+        this.assertTrue(result.size()==1000);
+    }
+    
+    /**
+     * Test of getFeatureBy method, of class usyd.comp5425.db.DataTap.
+     */
+    public void testGetFeatureBy() {
+        System.out.println("getFeatureBy");
+        
+        int id = 0;
+        String featureName = "";
+        DataTap  instance = DataTapFactory.createDataTap();
+        
+        FeatureInfo result = instance.getFeatureBy(id, featureName);
+        this.assertNull(result);
+        result = instance.getFeatureBy(4, "Hello");
+        this.assertNotNull(result);
+        
+    }
+    
+    /**
+     * Test of getFeaturesBy method, of class usyd.comp5425.db.DataTap.
+     */
+    public void testGetFeaturesBy() {
+        System.out.println("getFeaturesBy");
+        
+        String image = "";
+        DataTap  instance = DataTapFactory.createDataTap();
+        
+        Collection<FeatureInfo> expResult = null;
+        Collection<FeatureInfo> result = instance.getFeaturesBy(image);
+        this.assertTrue(result.size() == 0);
+        result = instance.getFeaturesBy("abc/hdd/sgsg.jpg");
+        this.assertTrue(result.size() ==1000);
+        
+        
+    }
+    
+    /**
+     * Test of remove method, of class usyd.comp5425.db.DataTap.
+     */
+    public void testRemove() {
+        System.out.println("remove");
+        
+        int id = 10;
+        DataTap  instance = DataTapFactory.createDataTap();
+        
+        boolean expResult = true;
+        boolean result = instance.remove(id);
+        assertEquals(expResult, result);
+        
+        FeatureInfo f = instance.getFeatureBy(id);
+        this.assertNull(f);
+        
+    }
     
 }

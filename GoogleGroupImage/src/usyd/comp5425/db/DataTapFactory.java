@@ -25,5 +25,6 @@ public class DataTapFactory {
     }
     public static void close(){
         derby.close();
+        derby = null;
     }
 }

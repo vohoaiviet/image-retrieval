@@ -47,9 +47,7 @@ public class ConnectionPool{
     }
     
     public void closeConnection(Connection con){
-        System.out.println("Current size of Pool: "+freePool.size());
         freePool.add(con);
-        System.out.println("Size of Pool after connection closed: "+freePool.size());
     }
     
     private void createConnections
@@ -78,7 +76,7 @@ public class ConnectionPool{
                 // ex.printStackTrace();
             }
         }
-        
+        freePool = null;
     }
 }
 

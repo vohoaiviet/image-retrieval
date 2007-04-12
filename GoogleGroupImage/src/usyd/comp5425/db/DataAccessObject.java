@@ -28,14 +28,9 @@ import java.util.Vector;
  * @author Yuezhong Zhang
  */
 public abstract class DataAccessObject implements DataTap{
-    private ConnectionPool connectionPool;
-    private static final String TABLE_NAME    = "FEATURE_TABLE";
-    private static final String ID_COLUMN     = "ID";
-    private static final String NAME_COLUMN   = "FEATURE_NAME";
-    private static final String IMAGE_COLUMN  = "IMAGE";
-    private static final String VECTOR_COLUMN = "VECTOR";
-    private static String names [] = {"ID","FEATURE_NAME","IMAGE","VECTOR","FEATURE_TABLE"};
-    PreparedStatement pstmt;
+    public ConnectionPool connectionPool;
+    public static String names [] = {"ID","FEATURE_NAME","IMAGE","VECTOR","FEATURE_TABLE"};
+    public PreparedStatement pstmt;
     public DataAccessObject() {
     }
     public Collection<Integer> getAllFeaturesID(){
@@ -183,6 +178,7 @@ public abstract class DataAccessObject implements DataTap{
                 return true;
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return false;
         }
         return false;
@@ -257,7 +253,7 @@ public abstract class DataAccessObject implements DataTap{
         }
         return sb.toString();
     }
-    private String format(String txt, Object [] args){
+    public String format(String txt, Object [] args){
         return MessageFormat.format(txt,args);
     }
     public void setConnectionPool(ConnectionPool pool){

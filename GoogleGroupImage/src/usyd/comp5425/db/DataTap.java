@@ -23,7 +23,7 @@ public interface DataTap {
     public FeatureInfo getFeatureBy(int id);
     public Collection<FeatureInfo> getFeaturesBy(String image);
     
-    public int add(FeatureInfo feature);
+    public boolean add(FeatureInfo feature);
     public boolean remove(int id);
     public boolean remove(FeatureInfo feature);
     public boolean remove(String image);

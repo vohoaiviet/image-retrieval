@@ -25,7 +25,7 @@ public class Application {
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home","C:\\Sun");
+        System.setProperty("derby.system.home",System.getProperty("user.home"));
         try {
             
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

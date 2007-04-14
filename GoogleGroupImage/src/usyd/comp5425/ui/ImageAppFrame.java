@@ -98,7 +98,11 @@ public class ImageAppFrame extends JFrame {
     public static final String THUMBNAIL_PANEL="thumbnailPanel";
     private ActionManager manager;
     private ProgressGlassPane progressPane;
+    private JFileChooser filechooser = new JFileChooser();
 
+    public JFileChooser getFilechooser() {
+        return filechooser;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private usyd.comp5425.ui.imageviewer.JThumbnailPanel jThumbnailPanel1;
     private javax.swing.JPanel mainPanel;

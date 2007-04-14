@@ -59,7 +59,7 @@ public class DataTapTest extends TestCase {
         System.out.println("add");
         FeatureInfo feature = null;
         DataTap  instance = DataTapFactory.createDataTap();
-        for(int i=0; i<1000; i++){
+        for(int i=0; i<20000; i++){
             feature = new FeatureInfo();
             feature.setFeatureName("Hello");
             feature.setImage("abc/hdd/sgsg.jpg");

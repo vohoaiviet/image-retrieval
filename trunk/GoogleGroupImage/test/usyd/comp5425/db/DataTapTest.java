@@ -27,7 +27,7 @@ public class DataTapTest extends TestCase {
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home","C:\\Sun");
+        System.setProperty("derby.system.home",System.getProperty("user.dir"));
     }
     
     protected void tearDown() throws Exception {
@@ -37,8 +37,9 @@ public class DataTapTest extends TestCase {
         //the below two lines doesn't work', 
         //if you do testing, please manually delete this file
         //after each test. 
-        File file = new File("C:\\Sun\\myDb");
-        file.deleteOnExit();
+//        File file = new File("C:\\Sun\\myDb");
+        
+//        file.deleteOnExit();
         
     }
     /**
@@ -83,11 +84,11 @@ public class DataTapTest extends TestCase {
         
         Collection result = instance.getAllFeaturesID();
         for(Object obj : result){
-            // System.out.println(obj);
+            System.out.println(obj);
         }
         //the result must be 1000, otherwise, something wrong.
         if(result.size() !=1000){      
-            fail("size not equals to 10000");
+            fail("size not equals to 1000");
         }
     }
     

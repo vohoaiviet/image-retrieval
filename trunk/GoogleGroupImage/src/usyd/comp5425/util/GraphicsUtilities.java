@@ -42,7 +42,7 @@ import javax.imageio.ImageIO;
  * These methods try to avoid unmanaging the image in order to keep good
  * performance.</p>
  *
- * @author Romain Guy <romain.guy@mac.com>
+ * 
  */
 public class GraphicsUtilities {
     private GraphicsUtilities() {

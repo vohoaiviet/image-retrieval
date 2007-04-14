@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE action-set SYSTEM "action-set.dtd">
 
+
 <!--
   The actions define all the Actions in an application 
   and toolbars and menus which use the actions
@@ -14,11 +15,11 @@
             name="File"
             mnemonic="F"
             desc="File Operations"/>
-    
+   <!-- 
     <action id="edit-menu-command"
             name="Edit"
             mnemonic="E"
-            desc="Edit Operations"/>
+            desc="Edit Operations"/> -->
     
     <action id="view-menu-command"
             name="View"
@@ -58,7 +59,7 @@
             desc="Exits the application"/>
     
     <!-- Edit menu commands -->
-  
+  <!--
     <action id="copy-command"
             name="Copy"
             mnemonic="C"
@@ -82,7 +83,7 @@
             icon="/toolbarButtonGraphics/general/Paste24.gif"
             accel="control V"
             desc="Inserts an object from the clipboard"/>
-    
+    -->
     <!-- Help menu commands -->
 
     <action id="about-command"
@@ -140,11 +141,13 @@
             <empty/>
             <action idref="exit-command"/>
         </action-list>
+        <!--
         <action-list id="edit-menu" idref="edit-menu-command">
             <action idref="cut-command"/>
             <action idref="copy-command"/>
             <action idref="paste-command"/>
         </action-list>
+        -->
         <action-list id="view-menu" idref="view-menu-command">
             <group id="align">
                 <action idref="show-query-command"/>

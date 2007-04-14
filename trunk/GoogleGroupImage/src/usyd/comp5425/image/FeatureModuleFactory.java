@@ -9,41 +9,55 @@
 
 package usyd.comp5425.image;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  *
  * @author Yuezhong Zhang
  */
 public class FeatureModuleFactory {
-    public final static FeatureModuleFactory factory = new FeatureModuleFactory();
-    private Hashtable<String,String> props = new Hashtable<String,String>();
-    /** Creates a new instance of FeatureExtractionFactory */
+    private final static FeatureModuleFactory factory = new FeatureModuleFactory();
+    private Hashtable<String,FeatureModule> features = new Hashtable<String,FeatureModule>();
+    private Properties props = new Properties();
     private FeatureModuleFactory() {
-        props.put("AverageRGB","usyd.comp5425.image.AverageRGBModule");
-        props.put("Co-occurence","usyd.comp5425.image.CooccurenceModule");
-        props.put("Local Color Histogram","usyd.comp5425.image.LocalColorHistogram");
-        props.put("Global Color Histogram", "usyd.comp5425.image.GlobalColorHistogram");
-        props.put("Geometric Moment", "usyd.comp5425.image.GeometricMoment");
+        try {
+            InputStream is = getClass().getClassLoader().getSystemResourceAsStream("modules.properties");
+            props.load(is);
+            is.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
-    public FeatureModuleFactory getInstance(){
+    public static FeatureModuleFactory getInstance(){
         return factory;
     }
     public FeatureModule getFeatureModule(String name){
-        String className = props.get(name);
-        if(className == null) {
+        FeatureModule module = null;
+        String className = props.getProperty(name);
+        if(className == null){
             return null;
-        }else{
+        }
+        module = features.get(className);
+        if(module == null){
             try {
                 Class c =  Class.forName(className);
-                return (FeatureModule) c.newInstance();
+                module =  (FeatureModule) c.newInstance();
+                features.put(className,module);
             } catch (Exception ex) {
                 return null;
             }
         }
+        return  module;
     }
-    public String [] getAvailableModuleNames(){
-        return (String []) props.keySet().toArray();
+    public Enumeration getModulesName(){
+        return props.propertyNames();
+    }
+    public int getNumberOfMoudle(){
+        return props.size();
     }
     
 }

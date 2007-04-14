@@ -29,8 +29,8 @@ import usyd.comp5425.image.FeatureModuleFactory;
 public class FeatureExtractManager {
     private Logger logger = Logger.getLogger(FeatureExtractManager.class.getName());
     public FeatureExtractManager() {
-        ImageIO.setUseCache(true);
-        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        //ImageIO.setUseCache(true);
+        // ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
     }
     public Collection <FeatureInfo> extractFeature(File file){
         logger.info("processing file " + file.getAbsolutePath());
@@ -39,25 +39,23 @@ public class FeatureExtractManager {
         BufferedImage image = readImage(file);
         if(image == null)
             return features;
-        int [] pixels = getRGBPixels(image);
-        for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            FeatureModule module =(FeatureModule) e.nextElement();
+        FeatureModule module = factory.getFeatureModule("AverageRGB");
+        
+//        for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
+//            FeatureModule module =(FeatureModule) e.nextElement();
+            logger.info("process is with " + module.getName());
             FeatureInfo info = new FeatureInfo();
             info.setFeatureName(module.getName());
-            //info.setImage(file.getPath());
-            info.setVector(module.getFeatureVector(pixels, image.getHeight(),image.getWidth(),new int [0],0 ,0.1,module.getFeatureLength()));
+            info.setImage(file.getPath());
+            info.setVector(module.getFeatureVector(image));
+            System.out.println(info.getVector().toString());
             features.add(info);
             info = null;
             module = null;
-        }
-        pixels = null;
+//        }
         image = null;
         factory = null;
+        logger.info("return features");
         features.trimToSize();
         return features;
     }
@@ -87,7 +85,7 @@ public class FeatureExtractManager {
         }
     }
     public BufferedImage readImage(URL url){
-          logger.info("read file " + url);
+        logger.info("read file " + url);
         try {
             return   ImageIO.read(url);
         } catch (IOException ex) {
@@ -96,6 +94,9 @@ public class FeatureExtractManager {
         }
     }
     public int [] getRGBPixels(BufferedImage image){
-        return  image.getRGB(0,0,image.getWidth(),image.getHeight(),null, 0, image.getWidth());
+        logger.info("get rgb pixels");
+        int rgb [] = image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());
+        logger.info("readed pxiels");
+        return rgb;
     }
 }

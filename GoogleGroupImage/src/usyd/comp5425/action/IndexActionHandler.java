@@ -62,12 +62,12 @@ public class IndexActionHandler {
                     System.out.println("files=" + files.length);
                     if(files.length > 0) {
                         System.out.println("start runing");
-                        logger.fine("start processing");
+                        logger.info("start processing");
                         FeatureExtractManager manager = new FeatureExtractManager();
                         DataTap  tap = DataTapFactory.createDataTap();
                         for(File file : files){
                             publish(file);
-                            logger.fine("start processing " + file);
+                            logger.info("start processing " + file);
                             Collection<FeatureInfo> features = manager.extractFeature(file);
                             for(FeatureInfo info : features)
                                 tap.add(info);

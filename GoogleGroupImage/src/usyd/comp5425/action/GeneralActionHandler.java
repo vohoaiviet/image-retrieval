@@ -12,6 +12,7 @@ package usyd.comp5425.action;
 import com.sun.jaf.ui.Action;
 import com.sun.jaf.ui.ActionManager;
 import javax.swing.JOptionPane;
+import usyd.comp5425.db.DataTapFactory;
 import usyd.comp5425.ui.AboutPanel;
 import usyd.comp5425.ui.ImageAppFrame;
 
@@ -47,6 +48,7 @@ public class GeneralActionHandler {
     }
     @Action("exit-command")
     public void handleExit(){
+        DataTapFactory.close();
         System.exit(0);
     }
     @Action("about-command")

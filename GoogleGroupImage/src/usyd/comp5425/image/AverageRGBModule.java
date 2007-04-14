@@ -33,9 +33,9 @@ public class AverageRGBModule extends FeatureModule {
             green += inImg[i] >> 8 &  0xff;
             blue  += inImg[i] & 0xff;
         }
-        vector.add(((double)red    / size) );
-        vector.add(((double)green / size) );
-        vector.add(((double)blue / size) );
+        vector.add(round(((double)red    / size) ));
+        vector.add(round(((double)green / size) ));
+        vector.add(round(((double)blue / size) ));
         return vector;
     }
     

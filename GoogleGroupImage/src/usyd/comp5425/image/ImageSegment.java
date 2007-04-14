@@ -15,7 +15,6 @@ import java.util.*;
   * It has methods that can return the (x, y) of the largest image
   * segment and the (x, y) of the boundary of the largest image segment.
   *
-  * @author Li Shiu Fung and Chan Siu Kong, Gavin
   */
 public class ImageSegment {
 

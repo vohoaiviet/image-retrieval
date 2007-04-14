@@ -53,4 +53,9 @@ public class GeneralActionHandler {
     public void handleAbout(){
         JOptionPane.showMessageDialog(frame,new AboutPanel());
     }
+    @Action("save-command")
+    public void handleSave(){
+        JOptionPane.showConfirmDialog(frame,"Save");
+
+    }
 }

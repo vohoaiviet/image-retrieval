@@ -9,8 +9,6 @@
 
 package usyd.comp5425.image;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -20,19 +18,25 @@ import java.util.Properties;
  * @author Yuezhong Zhang
  */
 public class FeatureModuleFactory {
-    private final static FeatureModuleFactory factory = new FeatureModuleFactory();
+    private  static FeatureModuleFactory factory;
     private Hashtable<String,FeatureModule> features = new Hashtable<String,FeatureModule>();
     private Properties props = new Properties();
     private FeatureModuleFactory() {
-        try {
-            InputStream is = getClass().getClassLoader().getSystemResourceAsStream("modules.properties");
-            props.load(is);
-            is.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        
+        props.setProperty("AverageRGB","usyd.comp5425.image.AverageRGBModule");
+        props.setProperty("Cooccurence","usyd.comp5425.image.CooccurenceModule");
+        props.setProperty("Local_Color_Histogram","usyd.comp5425.image.LocalColorHistogram");
+        props.setProperty("Global_Color_Histogram","usyd.comp5425.image.GlobalColorHistogram");
+        props.setProperty("Geometric_Moment","usyd.comp5425.image.GeometricMoment");
+        
     }
     public static FeatureModuleFactory getInstance(){
+        System.out.println("getfactory");
+        if(factory == null){
+            System.out.println("factory not exist , create a new");
+            factory = new FeatureModuleFactory();
+        }
+        System.out.println("return factory");
         return factory;
     }
     public FeatureModule getFeatureModule(String name){

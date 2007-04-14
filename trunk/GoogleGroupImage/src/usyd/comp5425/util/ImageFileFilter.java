@@ -35,7 +35,7 @@ public class ImageFileFilter implements FileFilter {
 
     public boolean accept(File file) {
         if(file.isFile()){
-           String name = file.getName();
+           String name = file.getName().toLowerCase();
            if(name.endsWith("jpg"))
                return true;
         }

@@ -9,6 +9,8 @@
 
 package usyd.comp5425.image;
 
+import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
 import java.util.Vector;
 
 /**
@@ -55,7 +57,15 @@ public abstract class FeatureModule {
         }
         return Math.sqrt(total / size);
     }
-    
-    
+    public  Vector <Double> getFeatureVector(BufferedImage image){
+        int [] rgb = image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());
+        return getFeatureVector(rgb, image.getHeight(),image.getWidth(),new int [0],0 ,0.1, getFeatureLength());
+    }
+    public double round(double value){
+        int decimalPlace = 2;
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(2,BigDecimal.ROUND_UP);
+        return (bd.doubleValue());
+    }
     
 }

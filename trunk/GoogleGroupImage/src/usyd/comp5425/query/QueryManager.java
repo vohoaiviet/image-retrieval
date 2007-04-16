@@ -35,13 +35,12 @@ public class QueryManager {
     public void query(File file){
         if (file == null)
             return;
-        QueryEvent event = new QueryEvent();
-        this.fireQueryListenerQueryStarted(event);
+        this.fireQueryListenerQueryStarted(null);
         BufferedImage image = null;
         try {
             image = ImageIO.read(file);
             if(image == null){
-                this.fireQueryListenerQueryFinished(event);
+                this.fireQueryListenerQueryFinished(null);
                 return;
             }
         } catch (IOException ex) {
@@ -56,16 +55,15 @@ public class QueryManager {
             FeatureInfo info = dt.getFeatureBy(i);
             double diff = module.compareFeatureVector(features, info.getVector());
             if(diff < module.getThreshold()){
-                this.fireQueryListenerItemFound(new QueryEvent(info.getImage()));
+                this.fireQueryListenerItemFound(info.getImage());
             }
             info = null;
         }
-        this.fireQueryListenerQueryFinished(event);
+        this.fireQueryListenerQueryFinished(null);
         ids = null;
         features = null;
         module = null;
         dt = null;
-        
     }
     
     /**
@@ -97,12 +95,12 @@ public class QueryManager {
      *
      * @param event The event to be fired
      */
-    private void fireQueryListenerQueryStarted(usyd.comp5425.query.QueryEvent event) {
+    private void fireQueryListenerQueryStarted(String text) {
         if (listenerList == null) return;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i]==usyd.comp5425.query.QueryListener.class) {
-                ((usyd.comp5425.query.QueryListener)listeners[i+1]).queryStarted(event);
+                ((usyd.comp5425.query.QueryListener)listeners[i+1]).queryStarted(text);
             }
         }
     }
@@ -112,12 +110,12 @@ public class QueryManager {
      *
      * @param event The event to be fired
      */
-    private void fireQueryListenerQueryFinished(usyd.comp5425.query.QueryEvent event) {
+    private void fireQueryListenerQueryFinished(String text) {
         if (listenerList == null) return;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i]==usyd.comp5425.query.QueryListener.class) {
-                ((usyd.comp5425.query.QueryListener)listeners[i+1]).queryFinished(event);
+                ((usyd.comp5425.query.QueryListener)listeners[i+1]).queryFinished(text);
             }
         }
     }
@@ -127,12 +125,12 @@ public class QueryManager {
      *
      * @param event The event to be fired
      */
-    private void fireQueryListenerItemFound(usyd.comp5425.query.QueryEvent event) {
+    private void fireQueryListenerItemFound(String text) {
         if (listenerList == null) return;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i]==usyd.comp5425.query.QueryListener.class) {
-                ((usyd.comp5425.query.QueryListener)listeners[i+1]).itemFound(event);
+                ((usyd.comp5425.query.QueryListener)listeners[i+1]).itemFound(text);
             }
         }
     }

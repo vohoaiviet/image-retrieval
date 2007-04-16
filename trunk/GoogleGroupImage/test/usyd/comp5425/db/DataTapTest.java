@@ -7,7 +7,6 @@
 
 package usyd.comp5425.db;
 
-import java.io.File;
 import junit.framework.*;
 import java.util.Collection;
 import java.util.Vector;
@@ -34,13 +33,6 @@ public class DataTapTest extends TestCase {
         System.out.println("teardown");
         DataTapFactory.close();
         
-        //the below two lines doesn't work', 
-        //if you do testing, please manually delete this file
-        //after each test. 
-//        File file = new File("C:\\Sun\\myDb");
-        
-//        file.deleteOnExit();
-        
     }
     /**
      * Test of add method, of class usyd.comp5425.db.DataTap.
@@ -50,7 +42,7 @@ public class DataTapTest extends TestCase {
         //add some stuff to database.
         // 1000 images features
         /**
-         * a featureInfo  has 
+         * a featureInfo  has
          *   id   //you don;t need to set this id, when add to database, it auto generated
          *   featureName
          *   image   the path on system, where this image is located
@@ -59,7 +51,7 @@ public class DataTapTest extends TestCase {
         System.out.println("add");
         FeatureInfo feature = null;
         DataTap  instance = DataTapFactory.createDataTap();
-        for(int i=0; i<20000; i++){
+        for(int i=0; i<1000; i++){
             feature = new FeatureInfo();
             feature.setFeatureName("Hello");
             feature.setImage("abc/hdd/sgsg.jpg");
@@ -84,11 +76,11 @@ public class DataTapTest extends TestCase {
         
         Collection result = instance.getAllFeaturesID();
         for(Object obj : result){
-            System.out.println(obj);
+            // System.out.println(obj);
         }
         //the result must be 1000, otherwise, something wrong.
-        if(result.size() !=1000){      
-            fail("size not equals to 1000");
+        if(result.size() !=1000){
+            fail("size not equals to 10000");
         }
     }
     
@@ -106,8 +98,6 @@ public class DataTapTest extends TestCase {
         
         result = instance.getAllFeaturesIDBy("Hello");
         this.assertTrue(result.size()==1000);
-        
-        /// please try some other test ......
     }
     
     /**
@@ -119,11 +109,11 @@ public class DataTapTest extends TestCase {
         int id = 0;
         String featureName = "";
         DataTap  instance = DataTapFactory.createDataTap();
-
+        
         FeatureInfo result = instance.getFeatureBy(id, featureName);
         this.assertNull(result);
-    //above is JUnit auto geneated test code, but we need do more test on this method
-        
+        result = instance.getFeatureBy(4, "Hello");
+        this.assertNotNull(result);
         
     }
     
@@ -139,7 +129,8 @@ public class DataTapTest extends TestCase {
         Collection<FeatureInfo> expResult = null;
         Collection<FeatureInfo> result = instance.getFeaturesBy(image);
         this.assertTrue(result.size() == 0);
-        //since the image="", this won't be in our database, therefore the result =0'
+        result = instance.getFeaturesBy("abc/hdd/sgsg.jpg");
+        this.assertTrue(result.size() ==1000);
         
         
     }
@@ -156,7 +147,13 @@ public class DataTapTest extends TestCase {
         boolean expResult = true;
         boolean result = instance.remove(id);
         assertEquals(expResult, result);
-   
+        
+        FeatureInfo f = instance.getFeatureBy(id);
+        this.assertNull(f);
+        Collection<Integer> rs = instance.getAllFeaturesID();
+        for(Integer obj : rs){
+            this.assertTrue(instance.remove(obj));
+        }
     }
     
 }

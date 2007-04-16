@@ -6,6 +6,8 @@
 
 package usyd.comp5425.ui.imageviewer;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author  Yuezhong Zhang
@@ -18,7 +20,7 @@ public class JThumbnailPanel extends javax.swing.JPanel {
         initComponents();
         this.setFixedCellHeight(THUMBSIZE_LARGE);
         this.setFixedCellWidth(THUMBSIZE_LARGE);
-        this.setListModel( new ImageListModel());
+        this.imageList.setModel(new DefaultListModel());
     }
     
     /** This method is called from within the constructor to
@@ -53,15 +55,15 @@ public class JThumbnailPanel extends javax.swing.JPanel {
      * Getter for property setModel.
      * @return Value of property setModel.
      */
-    public ImageListModel getListModel() {
-        return (ImageListModel) this.imageList.getModel();
+    public DefaultListModel getListModel() {
+        return (DefaultListModel)this.imageList.getModel();
     }
     
     /**
      * Setter for property setModel.
      * @param setModel New value of property setModel.
      */
-    public void setListModel(ImageListModel model) {
+    public void setListModel(DefaultListModel model) {
         this.imageList.setModel(model);
     }
     

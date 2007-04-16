@@ -11,56 +11,131 @@ package usyd.comp5425.action;
 
 import com.sun.jaf.ui.Action;
 import com.sun.jaf.ui.ActionManager;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.EventQueue;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import org.jdesktop.swingworker.SwingWorker;
+import usyd.comp5425.query.QueryEvent;
+import usyd.comp5425.query.QueryListener;
 import usyd.comp5425.query.QueryManager;
 import usyd.comp5425.ui.ImageAppFrame;
-import usyd.comp5425.ui.imageviewer.ImageListModel;
+import usyd.comp5425.ui.QueryFormPanel;
+import usyd.comp5425.ui.imageviewer.JThumbnailPanel;
+import usyd.comp5425.util.GraphicsUtilities;
+import usyd.comp5425.util.LRUCache;
 
 /**
  *
  * @author Yuezhong Zhang
  */
-public class QueryActionHandler {
+public class QueryActionHandler implements QueryListener{
     
     private ImageAppFrame frame;
+    private  QueryManager manager;
+    private  DefaultListModel model;
+    private  LRUCache<String,BufferedImage> cache;
     /** Creates a new instance of QueryActionHandler */
     public QueryActionHandler(ImageAppFrame frame) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
+        manager = QueryManager.getInstance();
+        manager.addQueryListener(this);
+        JThumbnailPanel panel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        model = panel.getListModel();
+        panel = null;
+        cache = new LRUCache<String,BufferedImage>(200);
+        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        ImageIO.setUseCache(true);
     }
     @Action("query-command")
     public void handleQueryAction(){
-        frame.getProgressPane().setText("Start searching ...");
-        frame.getProgressPane().start();
-        SwingWorker worker = new SwingWorker<List, Object>(){
+        SwingWorker worker = new SwingWorker<Object, Object>(){
             @Override
-            protected List doInBackground() throws Exception {
-                QueryManager manager = QueryManager.getInstance();
-                List list = manager.query(null);
-                if(list == null){
-                    System.out.println("lst is null");
-                    return new ArrayList();
+            protected Object doInBackground() throws Exception {
+                QueryFormPanel panel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
+                String path = panel.getSampleFileField().getText();
+                if(path.length()!=0){
+                    manager.query(new File(path));
                 }
-                return list;
+                panel = null;
+                path  = null;
+                return null;
+            }
+        };
+        worker.execute();
+    }
+    @Action("browse-command")
+    public void handleOpenSample(){
+        JFileChooser jfc = frame.getFilechooser();
+        if(jfc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION){
+            File file = jfc.getSelectedFile();
+            QueryFormPanel panel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
+            panel.getSampleFileField().setText(file.getAbsolutePath());
+            panel = null;
+        }
+    }
+    
+    public void queryStarted(QueryEvent event) {
+        model.clear();
+        EventQueue.invokeLater(new Runnable(){
+            public void run(){
+                frame.getProgressPane().setText("Start searching ...");
+                frame.getProgressPane().start();
+                frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
+            }
+        });
+    }
+    
+    public void queryFinished(QueryEvent event) {
+        EventQueue.invokeLater(new Runnable(){
+            public void run(){
+                frame.getProgressPane().setText("Start searching ...");
+                frame.getProgressPane().stop();
+            }
+        });
+    }
+    
+    public void itemFound(final QueryEvent event) {
+        SwingWorker worker = new SwingWorker<BufferedImage, Object>(){
+            @Override
+            protected BufferedImage doInBackground() throws Exception {
+                BufferedImage image = null;
+                try {
+                    image = cache.get(event.getFilename());
+                    if(image == null){
+                        System.out.println("no cache for" + event.getFilename());
+                        image = ImageIO.read(new File(event.getFilename()));
+                        image = GraphicsUtilities.createThumbnailFast(image,128, 100);
+                        cache.put(event.getFilename(),image);
+                    }else
+                        System.out.println("used cache for" + event.getFilename());
+                    return image;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return image;
+                }
             }
             @Override
-            protected void done() {
+            public void done(){
                 try {
-                    ImageListModel model = frame.getThumbnailPanel().getListModel();
-                    model.clear();
-                    model.add(get());
-                    model = null;
-                    frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
-                } catch (Exception ignore) {
-                    ignore.printStackTrace();
-                    frame.setStatusText("Failed to query image");
-                }finally{
-                     frame.getProgressPane().stop();
+                    BufferedImage image = get();
+                    if(image !=null)
+                        model.addElement(get());
+                    image = null;
+                } catch (ExecutionException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
             }
         };
         worker.execute();
     }
+    
+    
 }

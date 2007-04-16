@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import usyd.comp5425.db.FeatureInfo;
@@ -29,6 +29,7 @@ import usyd.comp5425.image.FeatureModuleFactory;
 public class FeatureExtractManager {
     private Logger logger = Logger.getLogger(FeatureExtractManager.class.getName());
     public FeatureExtractManager() {
+        logger.setLevel(Level.OFF);
         //ImageIO.setUseCache(true);
         // ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
     }
@@ -43,15 +44,15 @@ public class FeatureExtractManager {
         
 //        for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
 //            FeatureModule module =(FeatureModule) e.nextElement();
-            logger.info("process is with " + module.getName());
-            FeatureInfo info = new FeatureInfo();
-            info.setFeatureName(module.getName());
-            info.setImage(file.getPath());
-            info.setVector(module.getFeatureVector(image));
-            System.out.println(info.getVector().toString());
-            features.add(info);
-            info = null;
-            module = null;
+        logger.info("process is with " + module.getName());
+        FeatureInfo info = new FeatureInfo();
+        info.setFeatureName(module.getName());
+        info.setImage(file.getPath());
+        info.setVector(module.getFeatureVector(image));
+        System.out.println(info.getVector().toString());
+        features.add(info);
+        info = null;
+        module = null;
 //        }
         image = null;
         factory = null;
@@ -76,7 +77,7 @@ public class FeatureExtractManager {
         return info;
     }
     public BufferedImage readImage(File file){
-        logger.info("read file " + file.getAbsolutePath());
+       logger.info("read file " + file.getAbsolutePath());
         try {
             return ImageIO.read(file);
         } catch (IOException ex) {
@@ -94,9 +95,7 @@ public class FeatureExtractManager {
         }
     }
     public int [] getRGBPixels(BufferedImage image){
-        logger.info("get rgb pixels");
         int rgb [] = image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());
-        logger.info("readed pxiels");
         return rgb;
     }
 }

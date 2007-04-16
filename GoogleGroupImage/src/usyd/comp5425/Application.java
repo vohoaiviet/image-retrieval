@@ -10,9 +10,11 @@
 package usyd.comp5425;
 
 import javax.swing.UIManager;
+import org.jvnet.substance.SubstanceLookAndFeel;
 import usyd.comp5425.action.GeneralActionHandler;
 import usyd.comp5425.action.IndexActionHandler;
 import usyd.comp5425.action.QueryActionHandler;
+import usyd.comp5425.db.DataTapFactory;
 import usyd.comp5425.ui.ImageAppFrame;
 
 /**
@@ -21,18 +23,12 @@ import usyd.comp5425.ui.ImageAppFrame;
  */
 public class Application {
     public static void main(String args[]) {
-        System.out.println("setup");
-        System.setProperty("derby.user","yuezhong");
-        System.setProperty("derby.password","yuezhong");
-        System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home",System.getProperty("user.home"));
+        
         try {
-            
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ImageAppFrame frame = new ImageAppFrame();
@@ -40,6 +36,12 @@ public class Application {
                 frame.setVisible(true);
             }
         });
+        System.out.println("setup");
+        System.setProperty("derby.user","yuezhong");
+        System.setProperty("derby.password","yuezhong");
+        System.setProperty("derby.url","jdbc:derby:myDB");
+        System.setProperty("derby.system.home",System.getProperty("user.home"));
+        DataTapFactory.createDataTap();
     }
     public static void initActionHandle(ImageAppFrame frame){
         GeneralActionHandler gah = new GeneralActionHandler(frame);

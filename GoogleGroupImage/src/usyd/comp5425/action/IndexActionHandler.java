@@ -30,8 +30,9 @@ import usyd.comp5425.util.ImageFileFilter;
  */
 public class IndexActionHandler {
     private Logger logger = Logger.getLogger(IndexActionHandler.class.getName());
-    private ImageAppFrame frame;
     private ImageFileFilter filter = new ImageFileFilter();
+    private ImageAppFrame frame;
+    
     /** Creates a new instance of IndexActionHandler */
     public IndexActionHandler(ImageAppFrame frame) {
         this.frame = frame;

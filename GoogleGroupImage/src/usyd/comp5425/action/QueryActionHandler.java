@@ -20,7 +20,6 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import org.jdesktop.swingworker.SwingWorker;
-import usyd.comp5425.query.QueryEvent;
 import usyd.comp5425.query.QueryListener;
 import usyd.comp5425.query.QueryManager;
 import usyd.comp5425.ui.ImageAppFrame;
@@ -80,40 +79,37 @@ public class QueryActionHandler implements QueryListener{
         }
     }
     
-    public void queryStarted(QueryEvent event) {
+    public void queryStarted(String text) {
         model.clear();
         EventQueue.invokeLater(new Runnable(){
             public void run(){
-                frame.getProgressPane().setText("Start searching ...");
+                frame.getProgressPane().setText("Querying is in progress...");
                 frame.getProgressPane().start();
                 frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
             }
         });
     }
     
-    public void queryFinished(QueryEvent event) {
+    public void queryFinished(String text) {
         EventQueue.invokeLater(new Runnable(){
             public void run(){
-                frame.getProgressPane().setText("Start searching ...");
                 frame.getProgressPane().stop();
             }
         });
     }
     
-    public void itemFound(final QueryEvent event) {
+    public void itemFound(final String text) {
         SwingWorker worker = new SwingWorker<BufferedImage, Object>(){
             @Override
             protected BufferedImage doInBackground() throws Exception {
                 BufferedImage image = null;
                 try {
-                    image = cache.get(event.getFilename());
+                    image = cache.get(text);
                     if(image == null){
-                        System.out.println("no cache for" + event.getFilename());
-                        image = ImageIO.read(new File(event.getFilename()));
+                        image = ImageIO.read(new File(text));
                         image = GraphicsUtilities.createThumbnailFast(image,128, 100);
-                        cache.put(event.getFilename(),image);
-                    }else
-                        System.out.println("used cache for" + event.getFilename());
+                        cache.put(text,image);
+                    }
                     return image;
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -136,6 +132,4 @@ public class QueryActionHandler implements QueryListener{
         };
         worker.execute();
     }
-    
-    
 }

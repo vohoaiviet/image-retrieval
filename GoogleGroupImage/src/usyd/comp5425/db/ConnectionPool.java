@@ -54,7 +54,7 @@ public class ConnectionPool{
             (String connectURL, String uName, String pWord, String driverName){
         try{
             Class.forName(driverName).newInstance();
-            for(int i=0; i<3; ++i){
+            for(int i=0; i<2; ++i){
                 Connection con = DriverManager.getConnection(connectURL,uName,pWord);
                 freePool.add(con);
             }

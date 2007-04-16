@@ -17,7 +17,7 @@ import java.util.EventListener;
  */
 public interface QueryListener extends EventListener{
     
-    public void queryStarted(QueryEvent event);
-    public void queryFinished(QueryEvent event);
-    public void itemFound(QueryEvent event);
+    public void queryStarted(String text);
+    public void queryFinished(String text);
+    public void itemFound(String text);
 }

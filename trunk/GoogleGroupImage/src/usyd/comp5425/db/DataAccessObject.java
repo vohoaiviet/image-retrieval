@@ -54,7 +54,7 @@ public abstract class DataAccessObject implements DataTap{
         }
         return results;
     }
-    public Collection getAllFeaturesIDBy(String featureName){
+    public Collection<Integer> getAllFeaturesIDBy(String featureName){
         Collection<Integer> results = new LinkedList<Integer>();
         try {
             Connection con = connectionPool.getConnection();

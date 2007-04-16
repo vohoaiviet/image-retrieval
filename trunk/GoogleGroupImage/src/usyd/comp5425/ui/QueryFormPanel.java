@@ -7,6 +7,7 @@
 package usyd.comp5425.ui;
 
 import com.sun.jaf.ui.ActionManager;
+import javax.swing.JTextField;
 
 /**
  *
@@ -48,23 +49,27 @@ public class QueryFormPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(78, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(queryBtn)
+                    .add(browseBtn)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel2)
-                            .add(jLabel1))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jLabel1)
+                            .add(jLabel2))
+                        .add(0, 0, 0)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(filepath)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(browseBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 245, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .add(67, 67, 67))
+                            .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(filepath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(323, Short.MAX_VALUE)
+                .add(queryBtn)
+                .addContainerGap())
         );
+
+        layout.linkSize(new java.awt.Component[] {browseBtn, queryBtn}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
@@ -75,11 +80,12 @@ public class QueryFormPanel extends javax.swing.JPanel {
                 .add(16, 16, 16)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
-                    .add(browseBtn)
                     .add(filepath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(29, 29, 29)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(browseBtn)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(queryBtn)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -89,7 +95,9 @@ public class QueryFormPanel extends javax.swing.JPanel {
         queryBtn.setAction(manager.getAction("query-command"));
         manager = null;
     }
-    
+    public JTextField getSampleFileField(){
+        return this.filepath;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseBtn;

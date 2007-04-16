@@ -38,15 +38,15 @@ public class CooccurenceModule  extends FeatureModule{
         // using different type of statistical analysis
         for (i = 0; i < NUM_SHIFT; i++) {
             // maximum probability
-            v.add(new Double(analyseMatrix(coMatrix[i], 1)));
+            v.add(round(analyseMatrix(coMatrix[i], 1)));
             // first order element difference moment
-            v.add(new Double(analyseMatrix(coMatrix[i], 2)));
+            v.add(round(analyseMatrix(coMatrix[i], 2)));
             // first order inverse element difference moment
-            v.add(new Double(analyseMatrix(coMatrix[i], 5)));
+            v.add(round(analyseMatrix(coMatrix[i], 5)));
             // entropy
-            v.add(new Double(analyseMatrix(coMatrix[i], 8)));
+            v.add(round(analyseMatrix(coMatrix[i], 8)));
             // uniformity
-            v.add(new Double(analyseMatrix(coMatrix[i], 9)));
+            v.add(round(analyseMatrix(coMatrix[i], 9)));
         }
         
         return v;

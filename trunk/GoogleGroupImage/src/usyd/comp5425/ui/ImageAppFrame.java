@@ -76,6 +76,15 @@ public class ImageAppFrame extends JFrame {
         CardLayout layout = (CardLayout)mainPanel.getLayout();
         layout.show(mainPanel,name);
     }
+    public JPanel getPanel(String name){
+        if(name.equalsIgnoreCase(this.QUERY_FROM_PANEL))
+            return this.queryFormPanel1;
+        else if(name.equalsIgnoreCase(this.THUMBNAIL_PANEL)){
+            return this.jThumbnailPanel1;
+        }else if(name.equalsIgnoreCase(this.PAINT_PANEL))
+            return this.paintPanel1;
+        return null;
+    }
     public JThumbnailPanel getThumbnailPanel(){
         return jThumbnailPanel1;
     }
@@ -88,7 +97,6 @@ public class ImageAppFrame extends JFrame {
     public ProgressGlassPane getProgressPane() {
         return progressPane;
     }
-    
     public void setProgressPane(ProgressGlassPane progressPane) {
         this.progressPane = progressPane;
         this.setGlassPane(this.progressPane);
@@ -99,7 +107,6 @@ public class ImageAppFrame extends JFrame {
     private ActionManager manager;
     private ProgressGlassPane progressPane;
     private JFileChooser filechooser = new JFileChooser();
-
     public JFileChooser getFilechooser() {
         return filechooser;
     }

@@ -13,6 +13,7 @@ import com.sun.jaf.ui.Action;
 import com.sun.jaf.ui.ActionManager;
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import org.jdesktop.swingworker.SwingWorker;
@@ -39,7 +40,6 @@ public class IndexActionHandler {
     @Action("open-command")
     public void handleIndexAction(){
         JFileChooser jfc = frame.getFilechooser();
-        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File folder  = jfc.getSelectedFile();
             if(folder != null){
@@ -54,31 +54,33 @@ public class IndexActionHandler {
         jfc = null;
         SwingWorker worker = new SwingWorker<Object, File>(){
             protected Object doInBackground() throws Exception {
-                System.out.println("start executing");
                 File folder = new File(System.getProperty("indexFile"));
                 System.getProperties().remove("indexFile");
                 if(folder.isDirectory()){
                     File [] files = folder.listFiles(filter);
                     System.out.println("files=" + files.length);
                     if(files.length > 0) {
-                        System.out.println("start runing");
-                        logger.info("start processing");
                         FeatureExtractManager manager = new FeatureExtractManager();
                         DataTap  tap = DataTapFactory.createDataTap();
                         for(File file : files){
                             publish(file);
-                            logger.info("start processing " + file);
                             Collection<FeatureInfo> features = manager.extractFeature(file);
-                            for(FeatureInfo info : features)
-                                tap.add(info);
+                            for(FeatureInfo info : features){
+                                boolean i = tap.add(info);
+                                if(i)
+                                    System.out.println("added id = "+ info.getId());
+                                else
+                                    System.out.println("failed to added");
+                            }
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(500L);
                             } catch (InterruptedException ex) {
                                 ex.printStackTrace();
                             }
                         }
                     }
                 }
+                System.out.println("end time =" + new Date());
                 return null;
             }
             protected void process(File file){

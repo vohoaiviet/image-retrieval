@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -174,6 +175,9 @@ public class GraphicsUtilities {
         return toCompatibleImage(image);
     }
 
+    public static BufferedImage loadImage(File file) throws IOException{
+        return ImageIO.read(file);
+    }
     /**
      * <p>Return a new compatible image that contains a copy of the specified
      * image. This method ensures an image is compatible with the hardware,

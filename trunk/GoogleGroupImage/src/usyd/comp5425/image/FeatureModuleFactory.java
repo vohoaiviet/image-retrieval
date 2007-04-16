@@ -31,12 +31,9 @@ public class FeatureModuleFactory {
         
     }
     public static FeatureModuleFactory getInstance(){
-        System.out.println("getfactory");
         if(factory == null){
-            System.out.println("factory not exist , create a new");
             factory = new FeatureModuleFactory();
         }
-        System.out.println("return factory");
         return factory;
     }
     public FeatureModule getFeatureModule(String name){

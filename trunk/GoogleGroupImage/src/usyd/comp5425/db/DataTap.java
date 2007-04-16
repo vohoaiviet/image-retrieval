@@ -17,8 +17,8 @@ import java.util.Collection;
  */
 public interface DataTap {
     
-    public Collection getAllFeaturesID();
-    public Collection getAllFeaturesIDBy(String featureName);
+    public Collection<Integer> getAllFeaturesID();
+    public Collection<Integer> getAllFeaturesIDBy(String featureName);
     public FeatureInfo getFeatureBy(int id, String featureName);
     public FeatureInfo getFeatureBy(int id);
     public Collection<FeatureInfo> getFeaturesBy(String image);

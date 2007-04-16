@@ -29,23 +29,28 @@ public class ImageListModel extends AbstractListModel{
     
     public Object getElementAt(int index) {
         return list.get(index);
+        
     }
     public void add(Object obj){
-        this.list.add(obj);
-        int index = list.size();
-        super.fireIntervalAdded(this,list.size()-1,list.size());
+        if(obj != null){
+            this.list.add(obj);
+            int index = list.size();
+            super.fireContentsChanged(this,0,0);
+            // super.fireIntervalAdded(this,0, list.size());
+        }
+        System.out.println("list size=" + list.size());
     }
     public void add(List list){
         int index = list.size();
         this.list.addAll(list);
-        super.fireIntervalAdded(this,this.list.size() -list.size(),this.list.size());
+        super.fireContentsChanged(this,0,0);
     }
     public void remove(Object obj){
         this.list.remove(obj);
-        super.fireIntervalRemoved(this,list.size()-1,list.size());
+        super.fireContentsChanged(this,0,0);
     }
     public void clear(){
         this.list.clear();
-        super.fireContentsChanged(this,0,0);
+        super.fireContentsChanged(this,0,list.size());
     }
 }

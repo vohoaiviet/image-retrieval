@@ -40,7 +40,7 @@ public class Application {
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home",System.getProperty("user.home"));
+        System.setProperty("derby.system.home",System.getProperty("user.dir"));
         DataTapFactory.createDataTap();
     }
     public static void initActionHandle(ImageAppFrame frame){

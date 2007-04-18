@@ -41,10 +41,12 @@ public class IndexActionHandler {
     @Action("open-command")
     public void handleIndexAction(){
         JFileChooser jfc = frame.getFilechooser();
+        jfc.setFileSelectionMode(jfc.FILES_AND_DIRECTORIES);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File folder  = jfc.getSelectedFile();
             if(folder != null){
                 System.setProperty("indexFile",folder.getAbsolutePath());
+                System.out.println(folder.getAbsolutePath());
                 folder = null;
             }else {
                 return;
@@ -58,12 +60,14 @@ public class IndexActionHandler {
                 File folder = new File(System.getProperty("indexFile"));
                 System.getProperties().remove("indexFile");
                 if(folder.isDirectory()){
-                    File [] files = folder.listFiles(filter);
+                   // File [] files = folder.listFiles(filter);
+                      File [] files = folder.listFiles();
                     System.out.println("files=" + files.length);
                     if(files.length > 0) {
                         FeatureExtractManager manager = new FeatureExtractManager();
                         DataTap  tap = DataTapFactory.createDataTap();
                         for(File file : files){
+                            System.out.println(file.getAbsolutePath());
                             publish(file);
                             Collection<FeatureInfo> features = manager.extractFeature(file);
                             for(FeatureInfo info : features){

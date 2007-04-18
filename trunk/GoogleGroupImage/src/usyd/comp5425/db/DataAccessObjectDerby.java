@@ -81,7 +81,7 @@ public class DataAccessObjectDerby extends DataAccessObject {
         }
         try {
             System.out.println("creating table ....");
-            String text ="create table {4}({0} int generated always as identity, {1} varchar(50),{2} varchar(50), {3} varchar(30000))";
+            String text ="create table {4}({0} int generated always as identity, {1} varchar(50),{2} varchar(250), {3} varchar(30000))";
             pstmt = conn.prepareStatement(format(text,names));
             pstmt.executeUpdate();
             pstmt.close();

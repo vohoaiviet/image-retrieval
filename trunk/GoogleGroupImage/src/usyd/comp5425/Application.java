@@ -9,6 +9,7 @@
 
 package usyd.comp5425;
 
+import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
@@ -27,8 +28,8 @@ public class Application {
         ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
         ImageIO.setUseCache(true);
         try {
-            UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
-            //  UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+            //   UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+            UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }

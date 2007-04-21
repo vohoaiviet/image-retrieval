@@ -27,11 +27,8 @@ import usyd.comp5425.ui.ImageAppFrame;
 public class Application {
     public static void main(String args[]) {
         try {
-            //   UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
-            UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
-            SyntheticaLookAndFeel.setAntiAliasEnabled(true);
-            SyntheticaLookAndFeel.setExtendedFileChooserEnabled(false);
-            SyntheticaLookAndFeel.setRememberFileChooserPreferences(false);
+            UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+            // UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }

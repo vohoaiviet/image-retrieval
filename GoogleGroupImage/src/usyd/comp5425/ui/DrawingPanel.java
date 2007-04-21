@@ -114,24 +114,6 @@ public class DrawingPanel extends JPanel implements MouseListener {
     }
     
     public void mouseClicked(MouseEvent mouseEvent) {
-//        System.out.println("clicked");
-//        if(mouseEvent.isPopupTrigger()){
-//            System.out.println("start drawing");
-//            Graphics2D g2d = (Graphics2D)image.getGraphics();
-//            g2d.setColor(imageForeground);
-//            Line2D.Double  line = new Line2D.Double(start, end);
-//            if(filled){
-//                g2d.fillPolygon(polygon);
-//            }else{
-//                g2d.drawPolygon(polygon);
-//            }
-//            g2d.dispose();
-//
-//        }else if(this.mode == this.Polygon){
-//            System.out.println("added point");
-//            polygon.addPoint(mouseEvent.getX(),mouseEvent.getY());
-//        }
-//        repaint();
     }
     
     public void mousePressed(MouseEvent mouseEvent) {

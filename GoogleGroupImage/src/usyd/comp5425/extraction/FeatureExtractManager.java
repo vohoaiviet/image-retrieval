@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,20 +41,18 @@ public class FeatureExtractManager {
         BufferedImage image = readImage(file);
         if(image == null)
             return features;
-        FeatureModule module = factory.getFeatureModule("AverageRGB");
-        
-//        for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
-//            FeatureModule module =(FeatureModule) e.nextElement();
-        logger.info("process is with " + module.getName());
-        FeatureInfo info = new FeatureInfo();
-        info.setFeatureName(module.getName());
-        info.setImage(file.getPath());
-        info.setVector(module.getFeatureVector(image));
-        System.out.println(info.getVector().toString());
-        features.add(info);
-        info = null;
-        module = null;
-//        }
+        for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
+            FeatureModule module =(FeatureModule) e.nextElement();
+            logger.info("process is with " + module.getName());
+            FeatureInfo info = new FeatureInfo();
+            info.setFeatureName(module.getName());
+            info.setImage(file.getPath());
+            info.setVector(module.getFeatureVector(image));
+            System.out.println(info.getVector().toString());
+            features.add(info);
+            info = null;
+            module = null;
+        }
         image = null;
         factory = null;
         logger.info("return features");
@@ -77,7 +76,7 @@ public class FeatureExtractManager {
         return info;
     }
     public BufferedImage readImage(File file){
-       logger.info("read file " + file.getAbsolutePath());
+        logger.info("read file " + file.getAbsolutePath());
         try {
             return ImageIO.read(file);
         } catch (IOException ex) {

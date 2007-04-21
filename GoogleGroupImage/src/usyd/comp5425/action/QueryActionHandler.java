@@ -34,7 +34,7 @@ import usyd.comp5425.util.LRUCache;
  */
 public class QueryActionHandler implements QueryListener{
     
-    private ImageAppFrame frame;
+    private  ImageAppFrame frame;
     private  QueryManager manager;
     private  DefaultListModel model;
     private  LRUCache<String,BufferedImage> cache;

@@ -11,10 +11,16 @@ package usyd.comp5425.action;
 
 import com.sun.jaf.ui.Action;
 import com.sun.jaf.ui.ActionManager;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import usyd.comp5425.db.DataTapFactory;
 import usyd.comp5425.ui.AboutPanel;
 import usyd.comp5425.ui.ImageAppFrame;
+import usyd.comp5425.ui.PaintPanel;
 
 /**
  *
@@ -29,6 +35,7 @@ public class GeneralActionHandler {
     public GeneralActionHandler(ImageAppFrame frame) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
+        ActionManager.getInstance().setEnabled("save-command", false);
     }
     @Action("statusbar-command")
     public void handleStatusBarAction(boolean flag){
@@ -57,7 +64,24 @@ public class GeneralActionHandler {
     }
     @Action("save-command")
     public void handleSave(){
-        JOptionPane.showConfirmDialog(frame,"Save");
-
+        JFileChooser jfc = frame.getFilechooser();
+        if(jfc.showSaveDialog(frame)== jfc.APPROVE_OPTION){
+            File f = jfc.getSelectedFile();
+            PaintPanel  pp =(PaintPanel) frame.getPanel(frame.PAINT_PANEL);
+            BufferedImage image = pp.getImage();
+            if(image !=null)
+                try {
+                    ImageIO.write(image,"png",f);
+                    frame.setStatusText("saved image to " + f.getAbsolutePath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+        }
+    }
+    @Action("new-command")
+    public void handleNew(){
+        PaintPanel  pp =(PaintPanel) frame.getPanel(frame.PAINT_PANEL);
+        boolean created =  pp.createNewPaintBoard();
+        ActionManager.getInstance().setEnabled("save-command",created);
     }
 }

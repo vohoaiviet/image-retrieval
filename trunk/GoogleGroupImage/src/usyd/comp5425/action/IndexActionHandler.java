@@ -44,12 +44,12 @@ public class IndexActionHandler {
     @Action("open-command")
     public void handleIndexAction(){
         JFileChooser jfc = new JFileChooser();
-        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        jfc.setFileSelectionMode(jfc.DIRECTORIES_ONLY);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File file  = jfc.getSelectedFile();
             list.add(file);
         }
-        if(worker == null){
+        if(worker == null && (!list.isEmpty())){
             worker = new SwingWorker<Object,Object>(){
                 protected Object doInBackground() throws Exception {
                     System.out.println("start indexing images");

@@ -40,46 +40,56 @@ public class IndexActionHandler {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
         list = new LinkedList<File>();
-        worker = new SwingWorker<Object,Object>(){
-            protected Object doInBackground() throws Exception {
-                FeatureExtractManager manager = new FeatureExtractManager();
-                DataTap  tap = DataTapFactory.createDataTap();
-                while(!list.isEmpty() && (!worker.isCancelled())){
-                    File file = list.removeFirst();
-                    if(file.isDirectory()){
-                        File files [] = file.listFiles();
-                        for(File f : files)
-                            list.addLast(f);
-                    }else{
-                        Collection<FeatureInfo> features = manager.extractFeature(file);
-                        for(FeatureInfo info : features){
-                            boolean isAdded = tap.add(info);
-                            if(isAdded)
-                                System.out.println("Successfully indexed "+ file);
-                            else
-                                System.out.println("Failed to index "+ file);
-                        }
-                    }
-                    Thread.sleep(200L);
-                }
-                started  = false;
-                return null;
-            }
-        };
     }
     @Action("open-command")
     public void handleIndexAction(){
-        JFileChooser jfc = frame.getFilechooser();
-        jfc.setFileSelectionMode(jfc.FILES_AND_DIRECTORIES);
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File file  = jfc.getSelectedFile();
             list.add(file);
         }
-        if(!started){
+        if(worker == null){
+            worker = new SwingWorker<Object,Object>(){
+                protected Object doInBackground() throws Exception {
+                    ActionManager.getInstance().setEnabled("open-command",false);
+                    FeatureExtractManager manager = new FeatureExtractManager();
+                    DataTap  tap = DataTapFactory.createDataTap();
+                    while(true){
+                        if(list.isEmpty() || worker.isCancelled())
+                            break;
+                        File file = list.removeFirst();
+                        if(file.isDirectory()){
+                            File files [] = file.listFiles();
+                            for(File f : files)
+                                list.addLast(f);
+                        }else{
+                            Collection<FeatureInfo> features = manager.extractFeature(file);
+                            for(FeatureInfo info : features){
+                                boolean isAdded = tap.add(info);
+                                if(isAdded)
+                                    System.out.println("Successfully indexed "+ file);
+                                else
+                                    System.out.println("Failed to index "+ file);
+                            }
+                        }
+                        Thread.sleep(200L);
+                    }
+                    started  = false;
+                    ActionManager.getInstance().setEnabled("open-command",true);
+                    worker = null;
+                    return null;
+                }
+            };
             worker.execute();
         }
+        
     }
     public void handleCancelAction(){
-        worker.cancel(true);
+        list.clear();
+        if(worker !=null){
+            worker.cancel(true);
+            worker = null;
+        }
     }
 }

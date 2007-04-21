@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import usyd.comp5425.db.FeatureInfo;
@@ -29,10 +28,12 @@ import usyd.comp5425.image.FeatureModuleFactory;
  */
 public class FeatureExtractManager {
     private Logger logger = Logger.getLogger(FeatureExtractManager.class.getName());
+    private String path = System.getProperty("user.dir");
     public FeatureExtractManager() {
-        logger.setLevel(Level.OFF);
-        //ImageIO.setUseCache(true);
-        // ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        //logger.setLevel(Level.OFF);
+        path += File.separatorChar +"images";
+        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        ImageIO.setUseCache(true);
     }
     public Collection <FeatureInfo> extractFeature(File file){
         logger.info("processing file " + file.getAbsolutePath());
@@ -42,10 +43,12 @@ public class FeatureExtractManager {
         if(image == null)
             return features;
         for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
-            FeatureModule module =(FeatureModule) e.nextElement();
-            logger.info("process is with " + module.getName());
+            FeatureModule module = factory.getFeatureModule((String) e.nextElement());
             FeatureInfo info = new FeatureInfo();
             info.setFeatureName(module.getName());
+            int length = path.length();
+            String url = file.getAbsolutePath().substring(length+1);
+            System.out.println("URL =" + url);
             info.setImage(file.getPath());
             info.setVector(module.getFeatureVector(image));
             System.out.println(info.getVector().toString());
@@ -55,7 +58,6 @@ public class FeatureExtractManager {
         }
         image = null;
         factory = null;
-        logger.info("return features");
         features.trimToSize();
         return features;
     }
@@ -76,7 +78,6 @@ public class FeatureExtractManager {
         return info;
     }
     public BufferedImage readImage(File file){
-        logger.info("read file " + file.getAbsolutePath());
         try {
             return ImageIO.read(file);
         } catch (IOException ex) {
@@ -85,9 +86,8 @@ public class FeatureExtractManager {
         }
     }
     public BufferedImage readImage(URL url){
-        logger.info("read file " + url);
         try {
-            return   ImageIO.read(url);
+            return  ImageIO.read(url);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;

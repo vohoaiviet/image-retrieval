@@ -26,7 +26,7 @@ public class Application {
         
         try {
             //  UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
-            UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+          //  UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class Application {
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home",System.getProperty("user.dir"));
+        System.setProperty("derby.system.home",System.getProperty("user.home"));
         DataTapFactory.createDataTap();
     }
     public static void initActionHandle(ImageAppFrame frame){

@@ -69,13 +69,14 @@ public class QueryActionHandler implements QueryListener{
     }
     @Action("browse-command")
     public void handleOpenSample(){
-        JFileChooser jfc = frame.getFilechooser();
+        JFileChooser jfc = new JFileChooser();
         if(jfc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION){
             File file = jfc.getSelectedFile();
             QueryFormPanel panel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
             panel.setSampleFile(file);
             panel = null;
         }
+        jfc = null;
     }
     
     public void queryStarted(String text) {

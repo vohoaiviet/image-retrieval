@@ -64,7 +64,7 @@ public class GeneralActionHandler {
     }
     @Action("save-command")
     public void handleSave(){
-        JFileChooser jfc = frame.getFilechooser();
+        JFileChooser jfc = new JFileChooser();
         if(jfc.showSaveDialog(frame)== jfc.APPROVE_OPTION){
             File f = jfc.getSelectedFile();
             PaintPanel  pp =(PaintPanel) frame.getPanel(frame.PAINT_PANEL);
@@ -77,6 +77,7 @@ public class GeneralActionHandler {
                     ex.printStackTrace();
                 }
         }
+        jfc = null;
     }
     @Action("new-command")
     public void handleNew(){

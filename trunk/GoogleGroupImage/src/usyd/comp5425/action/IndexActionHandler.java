@@ -60,8 +60,8 @@ public class IndexActionHandler {
                 File folder = new File(System.getProperty("indexFile"));
                 System.getProperties().remove("indexFile");
                 if(folder.isDirectory()){
-                   // File [] files = folder.listFiles(filter);
-                      File [] files = folder.listFiles();
+                    // File [] files = folder.listFiles(filter);
+                    File [] files = folder.listFiles();
                     System.out.println("files=" + files.length);
                     if(files.length > 0) {
                         FeatureExtractManager manager = new FeatureExtractManager();

@@ -43,8 +43,8 @@ public class Application {
             }
         });
         System.out.println("setup");
-        System.setProperty("derby.user","yuezhong");
-        System.setProperty("derby.password","yuezhong");
+        System.setProperty("derby.user","admin");
+        System.setProperty("derby.password","adminadmin");
         System.setProperty("derby.url","jdbc:derby:myDB");
         System.setProperty("derby.system.home",System.getProperty("user.dir"));
         DataTapFactory.createDataTap();

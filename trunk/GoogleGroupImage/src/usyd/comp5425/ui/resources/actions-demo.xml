@@ -32,30 +32,32 @@
     <action id="new-command"
             name="New"
             mnemonic="N"
-            smicon="/toolbarButtonGraphics/general/New16.gif"
-            icon="/toolbarButtonGraphics/general/New24.gif"
+            smicon="/usyd/comp5425/ui/resources/filenew.png"
+            icon="/usyd/comp5425/ui/resources/filenew.png"
             accel="control N"
             desc="Create a new object"/>
     
     <action id="open-command"
             name="Open..."
             mnemonic="O"
-            smicon="/toolbarButtonGraphics/general/Open16.gif"
-            icon="/toolbarButtonGraphics/general/Open24.gif"
+            smicon="/usyd/comp5425/ui/resources/fileopen.png"
+            icon="/usyd/comp5425/ui/resources/fileopen.png"
             accel="control O"
             desc="Open the specified object"/>
     
     <action id="save-command"
             name="Save..."
             mnemonic="S"
-            smicon="/toolbarButtonGraphics/general/Save16.gif"
-            icon="/toolbarButtonGraphics/general/Save24.gif"
+            smicon="/usyd/comp5425/ui/resources/filesavea.png"
+            icon="/usyd/comp5425/ui/resources/filesavea.png"
             accel="control S"
             desc="Save the current document"/>
     
     <action id="exit-command"
             name="Exit"
             mnemonic="X"
+            smicon="/usyd/comp5425/ui/resources/exit.png"
+            icon="/usyd/comp5425/ui/resources/exit.png"
             desc="Exits the application"/>
     
     <!-- Edit menu commands -->
@@ -89,8 +91,8 @@
     <action id="about-command"
             name="About..."
             mnemonic="A"
-            smicon="/toolbarButtonGraphics/general/About16.gif"
-            icon="/toolbarButtonGraphics/general/About24.gif"
+            smicon="/usyd/comp5425/ui/resources/help.png"
+            icon="/usyd/comp5425/ui/resources/help.png"
             desc="Information about the application"/>
     
     <!-- Text commands - most of which are toggle actions -->
@@ -99,25 +101,25 @@
             type="toggle"
             name="Query Form"
             mnemonic="R"
-            smicon="/toolbarButtonGraphics/text/AlignRight16.gif"
-            icon="/toolbarButtonGraphics/text/AlignRight24.gif"
-            desc="Adjust the placement of the text along the right side"/>
+            smicon="/usyd/comp5425/ui/resources/demo.png"
+            icon="/usyd/comp5425/ui/resources/demo.png"
+            desc="Set up the query information"/>
     
     <action id="show-painter-command"
             type="toggle"
             name="Painter"
             mnemonic="L"
-            smicon="/toolbarButtonGraphics/text/AlignLeft24.gif"
-            icon="/toolbarButtonGraphics/text/AlignLeft24.gif"
-            desc="Adjust the placement of the text along the left side"/>
+            smicon="/usyd/comp5425/ui/resources/appearance.png"
+            icon="/usyd/comp5425/ui/resources/appearance.png"
+            desc="Paint panel"/>
     
     <action id="show-viewer-command"
             type="toggle"
             name="Viewer"
             mnemonic="N"
-            smicon="/toolbarButtonGraphics/text/AlignCenter16.gif"
-            icon="/toolbarButtonGraphics/text/AlignCenter24.gif"
-            desc="Adjust the placement of the text to the center"/>
+            smicon="/usyd/comp5425/ui/resources/view_icon.png"
+            icon="/usyd/comp5425/ui/resources/view_icon.png"
+            desc="Query result list"/>
     
     <!-- Toggle Action which will be implemented as a JToggleButton or 
        a JCheckBoxMenuItem -->
@@ -157,8 +159,12 @@
             <empty/>
             <!-- The following command demonstrates attribute overloading. The history command now has
            the properties of a "Show Status Bar" command -->
-            <action idref="statusbar-command" name="Show Status Bar" 
-                    mnemonic="B" desc="Shows or hides the status bar"/>
+            <action idref="statusbar-command" 
+                    name="Show Status Bar" 
+                    mnemonic="B"
+                    smicon="/usyd/comp5425/ui/resources/ktip.png"
+                    icon="/usyd/comp5425/ui/resources/ktip.png"
+                    desc="Shows or hides the status bar"/>
         </action-list>
         <!-- The following help-menu action-list demonstrated an inline definition
          of an action. This may be more convenient then defining the action separately -->
@@ -185,6 +191,8 @@
     <!-- action for query form -->
     <action id="query-command"
             name="Query"
+            smicon="/usyd/comp5425/ui/resources/viewmag.png"
+            icon="/usyd/comp5425/ui/resources/viewmag.png"
             desc="Search for images"/>
     
     <action id="browse-command"

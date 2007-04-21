@@ -9,8 +9,8 @@
 
 package usyd.comp5425;
 
+import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
 import javax.swing.UIManager;
-import org.jvnet.substance.SubstanceLookAndFeel;
 import usyd.comp5425.action.GeneralActionHandler;
 import usyd.comp5425.action.IndexActionHandler;
 import usyd.comp5425.action.QueryActionHandler;
@@ -25,7 +25,8 @@ public class Application {
     public static void main(String args[]) {
         
         try {
-            UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+            //  UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
+            UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }

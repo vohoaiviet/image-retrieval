@@ -6,6 +6,11 @@
 
 package usyd.comp5425.ui;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author  Yuezhong Zhang
@@ -25,40 +30,141 @@ public class PaintPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        fillBtn = new javax.swing.JCheckBox();
+        colorBtn = new javax.swing.JButton();
         lineBtn = new javax.swing.JButton();
+        ovalBtn = new javax.swing.JButton();
+        retangleBtn = new javax.swing.JButton();
+        roundRetangleBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        drawingPanel1 = new usyd.comp5425.ui.DrawingPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jToolBar1.setFloatable(false);
+        fillBtn.setSelected(true);
+        fillBtn.setText("Filled");
+        fillBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        fillBtn.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        fillBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                fillBtnActionPerformed(evt);
             }
         });
 
-        jToolBar1.add(jButton1);
+        jToolBar1.add(fillBtn);
 
-        jButton2.setText("Color");
-        jToolBar1.add(jButton2);
+        colorBtn.setText("Color");
+        colorBtn.setBackground(drawingPanel1.getImageForeground());
+        colorBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorBtnActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(colorBtn);
 
         lineBtn.setText("Line");
+        lineBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lineBtnActionPerformed(evt);
+            }
+        });
+
         jToolBar1.add(lineBtn);
+
+        ovalBtn.setText("Oval");
+        ovalBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ovalBtnActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(ovalBtn);
+
+        retangleBtn.setText("Retangle");
+        retangleBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retangleBtnActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(retangleBtn);
+
+        roundRetangleBtn.setText("Round Retangle");
+        roundRetangleBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roundRetangleBtnActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(roundRetangleBtn);
 
         add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
+        jScrollPane1.setViewportView(drawingPanel1);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
     }// </editor-fold>//GEN-END:initComponents
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void fillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillBtnActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.drawingPanel1.setFilled(fillBtn.isSelected());
+    }//GEN-LAST:event_fillBtnActionPerformed
+        
+    private void roundRetangleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundRetangleBtnActionPerformed
+// TODO add your handling code here:
+        drawingPanel1.setDrawingMode(DrawingPanel.Round_Rectangle);
+    }//GEN-LAST:event_roundRetangleBtnActionPerformed
     
+    private void retangleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retangleBtnActionPerformed
+// TODO add your handling code here:
+        drawingPanel1.setDrawingMode(DrawingPanel.Rectangle);
+    }//GEN-LAST:event_retangleBtnActionPerformed
+    
+    private void ovalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ovalBtnActionPerformed
+// TODO add your handling code here:
+        drawingPanel1.setDrawingMode(DrawingPanel.Oval);
+    }//GEN-LAST:event_ovalBtnActionPerformed
+    
+    private void lineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineBtnActionPerformed
+// TODO add your handling code here:
+        this.drawingPanel1.setDrawingMode(DrawingPanel.Line);
+    }//GEN-LAST:event_lineBtnActionPerformed
+    
+    private void colorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorBtnActionPerformed
+// TODO add your handling code here:
+        // drawingPanel1.setImageBackground( );
+        Color c = JColorChooser.showDialog(null,"ChooserColor",drawingPanel1.getImageForeground());
+        drawingPanel1.setImageForeground(c);
+    }//GEN-LAST:event_colorBtnActionPerformed
+        public boolean createNewPaintBoard(){
+        DrawingPropertyPanel dpp = new DrawingPropertyPanel();
+         int reps = JOptionPane.showConfirmDialog(this,dpp,"",JOptionPane.OK_CANCEL_OPTION);
+        if(reps == JOptionPane.OK_OPTION){
+            int width = dpp.getDrawingWidth();
+            int height = dpp.getDrawingHeight();
+            Color c = dpp.getDrawingBackground();
+            drawingPanel1.createNewImage(width,height,c);
+            drawingPanel1.repaint();
+            return true;
+        }
+         return false;
+    }
+    public BufferedImage getImage(){
+        return drawingPanel1.getImage();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton colorBtn;
+    private usyd.comp5425.ui.DrawingPanel drawingPanel1;
+    private javax.swing.JCheckBox fillBtn;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton lineBtn;
+    private javax.swing.JButton ovalBtn;
+    private javax.swing.JButton retangleBtn;
+    private javax.swing.JButton roundRetangleBtn;
     // End of variables declaration//GEN-END:variables
     
 }

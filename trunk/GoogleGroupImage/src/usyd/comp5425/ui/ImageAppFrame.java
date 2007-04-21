@@ -46,6 +46,7 @@ public class ImageAppFrame extends JFrame {
         }
         JToolBar toolbar = factory.createToolBar("main-toolbar");
         if (toolbar != null) {
+            toolbar.setFloatable(false);
             getContentPane().add(toolbar, BorderLayout.NORTH);
         }
 

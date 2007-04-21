@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -28,10 +29,12 @@ public class DrawingPanel extends JPanel implements MouseListener {
     public static final int Oval = 1;
     public static final int Rectangle = 2;
     public static final int Round_Rectangle = 4;
+    public static final int Polygon = 5;
     public boolean filled = true;
     private int mode = -1;
     private Point start;
     private Point end;
+    private Polygon polygon = new Polygon();
     /**
      * Creates new form DrawingPanel
      */
@@ -111,10 +114,30 @@ public class DrawingPanel extends JPanel implements MouseListener {
     }
     
     public void mouseClicked(MouseEvent mouseEvent) {
+//        System.out.println("clicked");
+//        if(mouseEvent.isPopupTrigger()){
+//            System.out.println("start drawing");
+//            Graphics2D g2d = (Graphics2D)image.getGraphics();
+//            g2d.setColor(imageForeground);
+//            Line2D.Double  line = new Line2D.Double(start, end);
+//            if(filled){
+//                g2d.fillPolygon(polygon);
+//            }else{
+//                g2d.drawPolygon(polygon);
+//            }
+//            g2d.dispose();
+//
+//        }else if(this.mode == this.Polygon){
+//            System.out.println("added point");
+//            polygon.addPoint(mouseEvent.getX(),mouseEvent.getY());
+//        }
+//        repaint();
     }
     
     public void mousePressed(MouseEvent mouseEvent) {
         start = mouseEvent.getPoint();
+        if(this.mode == this.Polygon)
+            polygon.addPoint(start.x,start.y);
     }
     
     public void mouseReleased(MouseEvent mouseEvent) {
@@ -166,6 +189,16 @@ public class DrawingPanel extends JPanel implements MouseListener {
                 g2d.drawRoundRect(sx,sy,width,height, 25, 25);
             }
             g2d.dispose();
+        }else if(this.mode == this.Polygon){
+            polygon.addPoint(end.x,end.y);
+            Graphics2D g2d = (Graphics2D)image.getGraphics();
+            g2d.setColor(imageForeground);
+            if(filled){
+                g2d.fillPolygon(polygon);
+            }else {
+                g2d.drawPolygon(polygon);
+            }
+            g2d.dispose();
         }
         this.repaint();
     }
@@ -174,6 +207,7 @@ public class DrawingPanel extends JPanel implements MouseListener {
     }
     
     public void mouseExited(MouseEvent mouseEvent) {
+        polygon.reset();
     }
     public boolean isValidDraw(Point start, Point end){
         if(start.x <= image.getWidth() && start.y <=image.getHeight() &&end.x <=image.getWidth() && end.y <=image.getHeight())

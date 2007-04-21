@@ -36,6 +36,7 @@ public class PaintPanel extends javax.swing.JPanel {
         ovalBtn = new javax.swing.JButton();
         retangleBtn = new javax.swing.JButton();
         roundRetangleBtn = new javax.swing.JButton();
+        polygonBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         drawingPanel1 = new usyd.comp5425.ui.DrawingPanel();
 
@@ -100,6 +101,15 @@ public class PaintPanel extends javax.swing.JPanel {
 
         jToolBar1.add(roundRetangleBtn);
 
+        polygonBtn.setText("Polygon");
+        polygonBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                polygonBtnActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.add(polygonBtn);
+
         add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
         jScrollPane1.setViewportView(drawingPanel1);
@@ -107,6 +117,11 @@ public class PaintPanel extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void polygonBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_polygonBtnActionPerformed
+// TODO add your handling code here:
+        this.drawingPanel1.setDrawingMode(drawingPanel1.Polygon);
+    }//GEN-LAST:event_polygonBtnActionPerformed
     
     private void fillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillBtnActionPerformed
 // TODO add your handling code here:
@@ -163,6 +178,7 @@ public class PaintPanel extends javax.swing.JPanel {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton lineBtn;
     private javax.swing.JButton ovalBtn;
+    private javax.swing.JButton polygonBtn;
     private javax.swing.JButton retangleBtn;
     private javax.swing.JButton roundRetangleBtn;
     // End of variables declaration//GEN-END:variables

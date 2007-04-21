@@ -12,7 +12,10 @@ package usyd.comp5425.query;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 import javax.imageio.ImageIO;
 import usyd.comp5425.db.DataTap;
@@ -32,7 +35,7 @@ public class QueryManager {
     public static QueryManager getInstance(){
         return manager;
     }
-    public void query(File file){
+    public void query(Vector<String> vector,File file){
         if (file == null)
             return;
         this.fireQueryListenerQueryStarted(null);
@@ -47,25 +50,72 @@ public class QueryManager {
             ex.printStackTrace();
         }
         DataTap dt = DataTapFactory.createDataTap();
-        FeatureModule module = FeatureModuleFactory.getInstance().getFeatureModule("AverageRGB");
-        Vector<Double> features = module.getFeatureVector(image);
-        image = null;
-        Collection<Integer> ids = dt.getAllFeaturesIDBy(module.getName());
-        for(Integer i : ids ){
-            FeatureInfo info = dt.getFeatureBy(i);
-            double diff = module.compareFeatureVector(features, info.getVector());
-            if(diff < module.getThreshold()){
-                this.fireQueryListenerItemFound(info.getImage());
+        Vector<List<String>> vect = new Vector<List<String>>();
+        for(String name : vector){
+            System.out.println("query with " + name);
+            List<String> list = new ArrayList<String>();
+            FeatureModule module = FeatureModuleFactory.getInstance().getFeatureModule(name);
+            Vector<Double> v =  module.getFeatureVector(image);
+            Collection<Integer> ids = dt.getAllFeaturesIDBy(name);
+            for(Integer i : ids){
+                FeatureInfo info = dt.getFeatureBy(i);
+                double diff = module.compareFeatureVector(v,info.getVector());
+                if(diff < module.getThreshold()){
+                    list.add(info.getImage());
+                }
+                info = null;
             }
-            info = null;
+            v = null;
+            module = null;
+            vect.add(list);
         }
+        List<String> tmp = new LinkedList<String>();
+        for(List l : vect){
+            if(l.size()>tmp.size())
+                tmp = l;
+        }
+        vect.remove(tmp);
+        List<String> resultList = new ArrayList<String>();
+        for(String path : tmp){
+            boolean ok = false;
+            int count = 0;
+            for(List<String> l : vect){
+                if(l.contains(path)){
+                    count++;
+                }
+            }
+            if(count == vect.size()){
+                resultList.add(path);
+            }
+        }
+        this.fireQueryListenerItemFound(resultList);
         this.fireQueryListenerQueryFinished(null);
-        ids = null;
-        features = null;
-        module = null;
-        dt = null;
+        tmp = null;
+        vect = null;
+        System.gc();
     }
-    
+    public void luckyQuery(){
+        this.fireQueryListenerQueryStarted(null);
+        DataTap dt = DataTapFactory.createDataTap();
+        List<String> list = FeatureModuleFactory.getInstance().getModulesNameList();
+        int index = getRandomNumber(list.size());
+        ArrayList<Integer> ids = (ArrayList)dt.getAllFeaturesIDBy(list.get(index));
+        List<String> resultList = new ArrayList<String>();
+        if(ids.size() >0){
+            index = getRandomNumber(ids.size());
+            for(int i=0; i<index; i++){
+                int pos = (int) (Math.random() * ids.size());
+                FeatureInfo info =  dt.getFeatureBy(ids.get(pos));
+                resultList.add(info.getImage());
+            }
+        }
+        fireQueryListenerItemFound(resultList);
+        this.fireQueryListenerQueryFinished(null);
+        
+    }
+    public int getRandomNumber(int max){
+        return  (int)(Math.random() * max);
+    }
     /**
      * Utility field used by event firing mechanism.
      */
@@ -125,7 +175,7 @@ public class QueryManager {
      *
      * @param event The event to be fired
      */
-    private void fireQueryListenerItemFound(String text) {
+    private void fireQueryListenerItemFound(List<String> text) {
         if (listenerList == null) return;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {

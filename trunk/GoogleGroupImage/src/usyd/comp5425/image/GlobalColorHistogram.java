@@ -36,7 +36,7 @@ public class GlobalColorHistogram extends FeatureModule{
         }
         
         for(int i=0 ; i<64 ; i++){
-            vector.add(new Double(histogram[i]/size));
+            vector.add(round((histogram[i]/size)));
         }
         histogram = null;
         return vector;

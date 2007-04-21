@@ -33,6 +33,7 @@ public class CooccurenceModule  extends FeatureModule{
         // Get the cooccurence matrices for the default parameters
         for (i = 0; i < NUM_SHIFT; i++) {
             coMatrix[i] = getCooccurenceMatrix(inImg,height,width, XYSHIFT[i][0], XYSHIFT[i][1]);
+
         }
         // By using the cooccurence matrices to calculate the feature vector
         // using different type of statistical analysis

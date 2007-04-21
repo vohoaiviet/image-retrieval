@@ -47,7 +47,7 @@ public class GeometricMoment extends ShapeModule{
                 if (pixels[j*size.width + i] == FOREGROUND)
                     moment += Math.pow(i-weight[0],pValue) * Math.pow(j-weight[1],qValue);
         
-        geometricMoment.add(new Double( moment ));
+        geometricMoment.add(round( moment ));
         return (geometricMoment);
     }
     public double getThreshold() {

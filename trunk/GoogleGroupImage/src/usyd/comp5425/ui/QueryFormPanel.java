@@ -7,6 +7,8 @@
 package usyd.comp5425.ui;
 
 import com.sun.jaf.ui.ActionManager;
+import java.io.File;
+import java.util.Vector;
 import javax.swing.JTextField;
 
 /**
@@ -35,14 +37,14 @@ public class QueryFormPanel extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         browseBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        averageBox = new javax.swing.JCheckBox();
+        coocurenceBox = new javax.swing.JCheckBox();
+        localColorBox = new javax.swing.JCheckBox();
+        globalColorBox = new javax.swing.JCheckBox();
+        geoBox = new javax.swing.JCheckBox();
+        luckyBtn = new javax.swing.JButton();
 
-        queryBtn.setText("Submit");
+        queryBtn.setText("IMSmart Search");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Sample Image"));
 
@@ -54,8 +56,8 @@ public class QueryFormPanel extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 161, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 13, Short.MAX_VALUE)
+                .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(browseBtn)
                 .addContainerGap())
         );
@@ -72,81 +74,177 @@ public class QueryFormPanel extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridLayout(5, 2, 5, 5));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Available feature extraction module"));
-        jCheckBox1.setText("Average RGB");
-        jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jPanel1.add(jCheckBox1);
+        averageBox.setText("Average RGB");
+        averageBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        averageBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                featureSelected(evt);
+            }
+        });
 
-        jCheckBox2.setText("Cooccurence");
-        jCheckBox2.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jPanel1.add(jCheckBox2);
+        jPanel1.add(averageBox);
 
-        jCheckBox3.setText("Local Color Histogram");
-        jCheckBox3.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jPanel1.add(jCheckBox3);
+        coocurenceBox.setText("Cooccurence");
+        coocurenceBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        coocurenceBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coocurenceBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox4.setText("Global Color Histogram");
-        jCheckBox4.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jPanel1.add(jCheckBox4);
+        jPanel1.add(coocurenceBox);
 
-        jCheckBox5.setText("Geometric Moment");
-        jCheckBox5.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jPanel1.add(jCheckBox5);
+        localColorBox.setText("Local Color Histogram");
+        localColorBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        localColorBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                localColorBoxActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Reset");
+        jPanel1.add(localColorBox);
+
+        globalColorBox.setText("Global Color Histogram");
+        globalColorBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        globalColorBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                globalColorBoxActionPerformed(evt);
+            }
+        });
+
+        jPanel1.add(globalColorBox);
+
+        geoBox.setText("Geometric Moment");
+        geoBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        geoBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                geoBoxActionPerformed(evt);
+            }
+        });
+
+        jPanel1.add(geoBox);
+
+        luckyBtn.setText("I'm Feeling Lucky");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(113, 113, 113)
-                .add(queryBtn)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton1)
-                .add(218, 218, 218))
-            .add(layout.createSequentialGroup()
-                .add(63, 63, 63)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .add(123, 123, 123))
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(30, 30, 30)
+                        .add(queryBtn)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(luckyBtn)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(14, 14, 14)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(queryBtn)
-                    .add(jButton1))
-                .addContainerGap(69, Short.MAX_VALUE))
+                    .add(luckyBtn)
+                    .add(queryBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-     
+    
+    private void geoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geoBoxActionPerformed
+// TODO add your handling code here:
+        enableSearchButton();
+    }//GEN-LAST:event_geoBoxActionPerformed
+    
+    private void globalColorBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_globalColorBoxActionPerformed
+// TODO add your handling code here:
+        enableSearchButton();
+    }//GEN-LAST:event_globalColorBoxActionPerformed
+    
+    private void localColorBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localColorBoxActionPerformed
+// TODO add your handling code here:
+        enableSearchButton();
+    }//GEN-LAST:event_localColorBoxActionPerformed
+    
+    private void coocurenceBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coocurenceBoxActionPerformed
+// TODO add your handling code here:
+        enableSearchButton();
+    }//GEN-LAST:event_coocurenceBoxActionPerformed
+    
+    private void featureSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_featureSelected
+// TODO add your handling code here:
+        enableSearchButton();
+    }//GEN-LAST:event_featureSelected
+    
     private void initActions() {
         ActionManager   manager = ActionManager.getInstance();
         browseBtn.setAction(manager.getAction("browse-command"));
         queryBtn.setAction(manager.getAction("query-command"));
+        luckyBtn.setAction(manager.getAction("imlucky-command"));
+        manager.setEnabled("query-command",false);
         manager = null;
     }
     public JTextField getSampleFileField(){
         return jTextField1;
     }
+    public Vector<String> getSelectedFeatures(){
+        v.clear();
+        if(averageBox.isSelected())
+            v.add("AverageRGB");
+        if(coocurenceBox.isSelected())
+            v.add("Cooccurence");
+        if(localColorBox.isSelected())
+            v.add("Local_Color_Histogram");
+        if(globalColorBox.isSelected())
+            v.add("Global_Color_Histogram");
+        if(geoBox.isSelected())
+            v.add("Geometric_Moment");
+        return  v;
+    }
+    private File sampleFile;
     
+    public File getSampleFile() {
+        return sampleFile;
+    }
+    
+    public void setSampleFile(File sampleFile) {
+        this.sampleFile = sampleFile;
+        jTextField1.setText(sampleFile.getAbsolutePath());
+        enableSearchButton();
+    }
+    public void enableSearchButton(){
+        queryBtn.setEnabled(false);
+        if(averageBox.isSelected()&& sampleFile != null)
+            queryBtn.setEnabled(true);
+        if(coocurenceBox.isSelected() && sampleFile != null)
+            queryBtn.setEnabled(true);
+        if(localColorBox.isSelected()&& sampleFile != null)
+            queryBtn.setEnabled(true);
+        if(globalColorBox.isSelected()&& sampleFile != null)
+            queryBtn.setEnabled(true);
+        if(geoBox.isSelected()&& sampleFile != null)
+            queryBtn.setEnabled(true);
+        
+    }
+    private Vector<String> v = new Vector<String>(5);
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox averageBox;
     private javax.swing.JButton browseBtn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox coocurenceBox;
+    private javax.swing.JCheckBox geoBox;
+    private javax.swing.JCheckBox globalColorBox;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JCheckBox localColorBox;
+    private javax.swing.JButton luckyBtn;
     private javax.swing.JButton queryBtn;
     // End of variables declaration//GEN-END:variables
     

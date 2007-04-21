@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -55,7 +56,7 @@ public abstract class DataAccessObject implements DataTap{
         return results;
     }
     public Collection<Integer> getAllFeaturesIDBy(String featureName){
-        Collection<Integer> results = new LinkedList<Integer>();
+        Collection<Integer> results = new ArrayList<Integer>();
         try {
             Connection con = connectionPool.getConnection();
             pstmt = con.prepareStatement(format("SELECT {0} FROM {4} WHERE {1}=?",names));

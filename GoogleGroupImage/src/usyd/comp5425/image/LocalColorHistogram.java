@@ -44,7 +44,7 @@ public class LocalColorHistogram extends FeatureModule{
         }
         for(i=0 ; i<gridCount ; i++)
             for(j=0 ; j<64 ; j++)
-                localColorHistogram.add(new Double(histogram[i][j]/(size/gridCount)));
+                localColorHistogram.add(round((histogram[i][j]/(size/gridCount))));
         histogram = null;
         return localColorHistogram;
         

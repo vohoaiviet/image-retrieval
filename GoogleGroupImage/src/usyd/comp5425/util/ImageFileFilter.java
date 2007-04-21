@@ -11,7 +11,6 @@ package usyd.comp5425.util;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 
 /**
  *
@@ -20,26 +19,21 @@ import java.io.FilenameFilter;
 public class ImageFileFilter implements FileFilter {
     
     /** Creates a new instance of ImageFileFilter */
+    private String exts [] =  {".jpg",".png",".jpeg",".gif"};
     public ImageFileFilter() {
     }
-
-    public boolean accept(File file, String name) {
-        if(file.isFile()){
-            name = name.toUpperCase();
-            if(name.endsWith(".JPG") || name.endsWith(".JPEG") || name.endsWith("GIF")){
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
     public boolean accept(File file) {
+        if(file.isDirectory())
+            return true;
         if(file.isFile()){
-           String name = file.getName().toLowerCase();
-           if(name.endsWith("jpg"))
-               return true;
+            String name = file.getName().toLowerCase();
+            for(String ext : exts){
+                if(name.endsWith(ext))
+                    return true;
+            }
+            
         }
         return false;
     }
-
 }

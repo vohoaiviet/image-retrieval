@@ -111,7 +111,7 @@ public class ProgressGlassPane extends JComponent implements MouseListener{
     public void start()
     
     {
-       // addMouseListener(this);
+        // addMouseListener(this);
         setVisible(true);
         ticker = buildTicker();
         animation = new Thread(new Animator(true));
@@ -128,6 +128,7 @@ public class ProgressGlassPane extends JComponent implements MouseListener{
             animation = new Thread(new Animator(false));
             animation.start();
         }
+        setVisible(false);
     }
     
     

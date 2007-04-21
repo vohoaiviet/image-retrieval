@@ -28,37 +28,41 @@ import usyd.comp5425.image.FeatureModuleFactory;
  */
 public class FeatureExtractManager {
     private Logger logger = Logger.getLogger(FeatureExtractManager.class.getName());
-    private String path = System.getProperty("user.dir");
+    private int length;
     public FeatureExtractManager() {
         //logger.setLevel(Level.OFF);
-        path += File.separatorChar +"images";
-        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
-        ImageIO.setUseCache(true);
+        StringBuffer sb = new StringBuffer(System.getProperty("user.dir"));
+        sb.append(File.separatorChar);
+        sb.append("images");
+        sb.append(File.separatorChar);
+        length = sb.length();
+        sb = null;
+        
     }
     public Collection <FeatureInfo> extractFeature(File file){
-        logger.info("processing file " + file.getAbsolutePath());
         FeatureModuleFactory factory = FeatureModuleFactory.getInstance();
         Vector<FeatureInfo> features = new Vector<FeatureInfo>(factory.getNumberOfMoudle());
         BufferedImage image = readImage(file);
         if(image == null)
             return features;
+         int [] pixels = getRGBPixels(image);
+        String relative = file.getAbsolutePath().substring(length);
         for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
-            FeatureModule module = factory.getFeatureModule((String) e.nextElement());
+            String moduleName = (String) e.nextElement();
+            FeatureModule module = factory.getFeatureModule(moduleName);
             FeatureInfo info = new FeatureInfo();
-            info.setFeatureName(module.getName());
-            int length = path.length();
-            String url = file.getAbsolutePath().substring(length+1);
-            System.out.println("URL =" + url);
-            info.setImage(file.getPath());
-            info.setVector(module.getFeatureVector(image));
-            System.out.println(info.getVector().toString());
+            info.setFeatureName(moduleName);
+            info.setImage(relative);
+            info.setVector(module.getFeatureVector(pixels, image.getHeight(),image.getWidth(),new int [0],0 ,0.1,module.getFeatureLength()));
             features.add(info);
             info = null;
             module = null;
         }
+        pixels = null;
         image = null;
         factory = null;
         features.trimToSize();
+        System.gc();
         return features;
     }
     public FeatureInfo extractFeature(File file, String featureName){
@@ -70,10 +74,10 @@ public class FeatureExtractManager {
         FeatureModule module =(FeatureModule) factory.getFeatureModule(featureName);
         factory = null;
         image = null;
-        
         FeatureInfo info = new FeatureInfo();
         info.setFeatureName(module.getName());
-        //info.setImage(file.getPath());
+        String relative = file.getAbsolutePath().substring(length);
+        info.setImage(relative);
         info.setVector(module.getFeatureVector(pixels, image.getHeight(),image.getWidth(),new int [0],0 ,0.1,module.getFeatureLength()));
         return info;
     }

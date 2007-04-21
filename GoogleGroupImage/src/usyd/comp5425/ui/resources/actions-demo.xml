@@ -15,7 +15,7 @@
             name="File"
             mnemonic="F"
             desc="File Operations"/>
-   <!-- 
+    <!-- 
     <action id="edit-menu-command"
             name="Edit"
             mnemonic="E"
@@ -59,33 +59,6 @@
             smicon="/usyd/comp5425/ui/resources/exit.png"
             icon="/usyd/comp5425/ui/resources/exit.png"
             desc="Exits the application"/>
-    
-    <!-- Edit menu commands -->
-  <!--
-    <action id="copy-command"
-            name="Copy"
-            mnemonic="C"
-            smicon="/toolbarButtonGraphics/general/Copy16.gif"
-            icon="/toolbarButtonGraphics/general/Copy24.gif"
-            accel="control C"
-            desc="Creates a duplicate of the selected item"/>
-    
-    <action id="cut-command"
-            name="Cut"
-            mnemonic="T"
-            smicon="/toolbarButtonGraphics/general/Cut16.gif"
-            icon="/toolbarButtonGraphics/general/Cut24.gif"
-            accel="control X"
-            desc="Remove selected item"/>
-    
-    <action id="paste-command"
-            name="Paste"
-            mnemonic="P"
-            smicon="/toolbarButtonGraphics/general/Paste16.gif"
-            icon="/toolbarButtonGraphics/general/Paste24.gif"
-            accel="control V"
-            desc="Inserts an object from the clipboard"/>
-    -->
     <!-- Help menu commands -->
 
     <action id="about-command"
@@ -143,13 +116,7 @@
             <empty/>
             <action idref="exit-command"/>
         </action-list>
-        <!--
-        <action-list id="edit-menu" idref="edit-menu-command">
-            <action idref="cut-command"/>
-            <action idref="copy-command"/>
-            <action idref="paste-command"/>
-        </action-list>
-        -->
+        
         <action-list id="view-menu" idref="view-menu-command">
             <group id="align">
                 <action idref="show-query-command"/>
@@ -190,14 +157,12 @@
     
     <!-- action for query form -->
     <action id="query-command"
-            name="Query"
+            name="IMSmart Search"
             desc="Search for images"/>
-           <!-- smicon="/usyd/comp5425/ui/resources/viewmag.png"
-            icon="/usyd/comp5425/ui/resources/viewmag.png" -->
-            
-    
     <action id="browse-command"
             name="Browse"
             desc="Open a sample picture"/>
-    
+    <action id="imlucky-command"
+            name="I'm Feeling Lucky"
+            desc="Randomly browsing Images"/>
 </action-set>

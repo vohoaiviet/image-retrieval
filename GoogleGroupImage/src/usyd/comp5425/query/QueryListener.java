@@ -10,6 +10,7 @@
 package usyd.comp5425.query;
 
 import java.util.EventListener;
+import java.util.List;
 
 /**
  *
@@ -19,5 +20,5 @@ public interface QueryListener extends EventListener{
     
     public void queryStarted(String text);
     public void queryFinished(String text);
-    public void itemFound(String text);
+    public void itemFound(List<String> list);
 }

@@ -52,6 +52,7 @@ public class IndexActionHandler {
         if(worker == null){
             worker = new SwingWorker<Object,Object>(){
                 protected Object doInBackground() throws Exception {
+                    System.out.println("start indexing images");
                     ActionManager.getInstance().setEnabled("open-command",false);
                     FeatureExtractManager manager = new FeatureExtractManager();
                     DataTap  tap = DataTapFactory.createDataTap();
@@ -60,30 +61,39 @@ public class IndexActionHandler {
                             break;
                         File file = list.removeFirst();
                         if(file.isDirectory()){
-                            File files [] = file.listFiles();
+                            File files [] = file.listFiles(filter);
                             for(File f : files)
                                 list.addLast(f);
                         }else{
+                            boolean  failed = false;
                             Collection<FeatureInfo> features = manager.extractFeature(file);
                             for(FeatureInfo info : features){
                                 boolean isAdded = tap.add(info);
-                                if(isAdded)
-                                    System.out.println("Successfully indexed "+ file);
-                                else
-                                    System.out.println("Failed to index "+ file);
+                                if(!isAdded) {
+                                    failed = true;
+                                }
+                            }
+                            if(!failed){
+                                System.out.println("Successfully indexed "+ file);
+                            }else {
+                                
+                                System.out.println("Failed to index "+ file);
                             }
                         }
                         Thread.sleep(200L);
                     }
-                    started  = false;
-                    ActionManager.getInstance().setEnabled("open-command",true);
-                    worker = null;
+                    System.out.println("finished");
                     return null;
+                }
+                @Override
+                public void done(){
+                    
+                    worker = null;
+                    ActionManager.getInstance().setEnabled("open-command",true);
                 }
             };
             worker.execute();
         }
-        
     }
     public void handleCancelAction(){
         list.clear();

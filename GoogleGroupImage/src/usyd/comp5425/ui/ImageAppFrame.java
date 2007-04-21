@@ -25,8 +25,10 @@ public class ImageAppFrame extends JFrame {
     public ImageAppFrame() {
         initActions();
         initComponents();
+        this.setTitle("IMSmart v1.0");
         this.setSize(850,600);
         this.setProgressPane(new ProgressGlassPane());
+        this.setLocationRelativeTo(null);
     }
     private void initActions() {
         URL actionURL = ImageAppFrame.class.getResource("resources/actions-demo.xml");
@@ -109,6 +111,7 @@ public class ImageAppFrame extends JFrame {
     private ProgressGlassPane progressPane;
     private JFileChooser filechooser = new JFileChooser();
     public JFileChooser getFilechooser() {
+        filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         return filechooser;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,7 +13,7 @@ import com.sun.jaf.ui.Action;
 import com.sun.jaf.ui.ActionManager;
 import java.io.File;
 import java.util.Collection;
-import java.util.Date;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import org.jdesktop.swingworker.SwingWorker;
@@ -32,71 +32,54 @@ public class IndexActionHandler {
     private Logger logger = Logger.getLogger(IndexActionHandler.class.getName());
     private ImageFileFilter filter = new ImageFileFilter();
     private ImageAppFrame frame;
-    
+    private SwingWorker worker;
+    private LinkedList<File> list;
+    private boolean started = false;
     /** Creates a new instance of IndexActionHandler */
     public IndexActionHandler(ImageAppFrame frame) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
+        list = new LinkedList<File>();
+        worker = new SwingWorker<Object,Object>(){
+            protected Object doInBackground() throws Exception {
+                FeatureExtractManager manager = new FeatureExtractManager();
+                DataTap  tap = DataTapFactory.createDataTap();
+                while(!list.isEmpty() && (!worker.isCancelled())){
+                    File file = list.removeFirst();
+                    if(file.isDirectory()){
+                        File files [] = file.listFiles();
+                        for(File f : files)
+                            list.addLast(f);
+                    }else{
+                        Collection<FeatureInfo> features = manager.extractFeature(file);
+                        for(FeatureInfo info : features){
+                            boolean isAdded = tap.add(info);
+                            if(isAdded)
+                                System.out.println("Successfully indexed "+ file);
+                            else
+                                System.out.println("Failed to index "+ file);
+                        }
+                    }
+                    Thread.sleep(200L);
+                }
+                started  = false;
+                return null;
+            }
+        };
     }
     @Action("open-command")
     public void handleIndexAction(){
         JFileChooser jfc = frame.getFilechooser();
         jfc.setFileSelectionMode(jfc.FILES_AND_DIRECTORIES);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
-            File folder  = jfc.getSelectedFile();
-            if(folder != null){
-                System.setProperty("indexFile",folder.getAbsolutePath());
-                System.out.println(folder.getAbsolutePath());
-                folder = null;
-            }else {
-                return;
-            }
-        }else {
-            return;
+            File file  = jfc.getSelectedFile();
+            list.add(file);
         }
-        jfc = null;
-        SwingWorker worker = new SwingWorker<Object, File>(){
-            protected Object doInBackground() throws Exception {
-                File folder = new File(System.getProperty("indexFile"));
-                System.getProperties().remove("indexFile");
-                if(folder.isDirectory()){
-                    // File [] files = folder.listFiles(filter);
-                    File [] files = folder.listFiles();
-                    System.out.println("files=" + files.length);
-                    if(files.length > 0) {
-                        FeatureExtractManager manager = new FeatureExtractManager();
-                        DataTap  tap = DataTapFactory.createDataTap();
-                        for(File file : files){
-                            System.out.println(file.getAbsolutePath());
-                            publish(file);
-                            Collection<FeatureInfo> features = manager.extractFeature(file);
-                            for(FeatureInfo info : features){
-                                boolean i = tap.add(info);
-                                if(i)
-                                    System.out.println("added id = "+ info.getId());
-                                else
-                                    System.out.println("failed to added");
-                            }
-                            try {
-                                Thread.sleep(500L);
-                            } catch (InterruptedException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                System.out.println("end time =" + new Date());
-                return null;
-            }
-            protected void process(File file){
-                frame.setStatusText("Processing :" + file.getAbsolutePath());
-            }
-            
-        };
-        worker.execute();
-        
+        if(!started){
+            worker.execute();
+        }
     }
     public void handleCancelAction(){
-        
+        worker.cancel(true);
     }
 }

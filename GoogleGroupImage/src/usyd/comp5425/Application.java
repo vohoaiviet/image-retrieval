@@ -46,15 +46,21 @@ public class Application {
         System.setProperty("derby.user","yuezhong");
         System.setProperty("derby.password","yuezhong");
         System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home",System.getProperty("user.home"));
+        System.setProperty("derby.system.home",System.getProperty("user.dir"));
         DataTapFactory.createDataTap();
         StringBuffer sb = new StringBuffer(System.getProperty("user.dir"));
         sb.append(File.separatorChar);
         sb.append("images");
         sb.append(File.separatorChar);
-        System.out.printf("image root folder:%s%n",sb);
+        System.out.printf("Image folder:%s%n",sb);
+        File file = new File(sb.toString());
+        if(!file.exists()){
+            file.mkdir();
+        }
+        file = null;
         ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
         ImageIO.setUseCache(true);
+        System.out.println("IMSmart v1.0 is ready");
     }
     public static void initActionHandle(ImageAppFrame frame){
         GeneralActionHandler gah = new GeneralActionHandler(frame);

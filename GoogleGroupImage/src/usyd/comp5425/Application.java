@@ -10,6 +10,7 @@
 package usyd.comp5425;
 
 import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaLookAndFeel;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
@@ -25,11 +26,12 @@ import usyd.comp5425.ui.ImageAppFrame;
  */
 public class Application {
     public static void main(String args[]) {
-        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
-        ImageIO.setUseCache(true);
         try {
             //   UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
             UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+            SyntheticaLookAndFeel.setAntiAliasEnabled(true);
+            SyntheticaLookAndFeel.setExtendedFileChooserEnabled(false);
+            SyntheticaLookAndFeel.setRememberFileChooserPreferences(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,6 +48,13 @@ public class Application {
         System.setProperty("derby.url","jdbc:derby:myDB");
         System.setProperty("derby.system.home",System.getProperty("user.home"));
         DataTapFactory.createDataTap();
+        StringBuffer sb = new StringBuffer(System.getProperty("user.dir"));
+        sb.append(File.separatorChar);
+        sb.append("images");
+        sb.append(File.separatorChar);
+        System.out.printf("image root folder:%s%n",sb);
+        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        ImageIO.setUseCache(true);
     }
     public static void initActionHandle(ImageAppFrame frame){
         GeneralActionHandler gah = new GeneralActionHandler(frame);

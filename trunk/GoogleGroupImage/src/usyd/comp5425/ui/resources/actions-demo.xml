@@ -191,9 +191,10 @@
     <!-- action for query form -->
     <action id="query-command"
             name="Query"
-            smicon="/usyd/comp5425/ui/resources/viewmag.png"
-            icon="/usyd/comp5425/ui/resources/viewmag.png"
             desc="Search for images"/>
+           <!-- smicon="/usyd/comp5425/ui/resources/viewmag.png"
+            icon="/usyd/comp5425/ui/resources/viewmag.png" -->
+            
     
     <action id="browse-command"
             name="Browse"

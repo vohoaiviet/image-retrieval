@@ -25,7 +25,7 @@ public class ImageAppFrame extends JFrame {
     public ImageAppFrame() {
         initActions();
         initComponents();
-        this.setTitle("IMSmart v1.0");
+        this.setTitle("IMSmart v"+System.getProperty("app.version"));
         this.setSize(850,600);
         this.setProgressPane(new ProgressGlassPane());
         this.setLocationRelativeTo(null);

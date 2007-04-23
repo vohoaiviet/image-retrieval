@@ -27,6 +27,7 @@ public class LookAndFeelActionHandler{
     public LookAndFeelActionHandler(ImageAppFrame frame ) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
+        ActionManager.getInstance().setSelected("SubstanceBusinessBlackSteelLookAndFeel", true);
     }
     @Action("SubstanceBusinessLookAndFeel")
     public void hanleSubstanceBusinessLookAndFeel(boolean bool){
@@ -34,7 +35,7 @@ public class LookAndFeelActionHandler{
     }
     @Action("SubstanceBusinessBlackSteelLookAndFeel")
     public void handleSubstanceBusinessBlackSteelLookAndFeel(boolean bool){
-       this.changeLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel");
+        this.changeLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
     }
     @Action("SubstanceCremeLookAndFeel")
     public void handleSubstanceCremeLookAndFeel(boolean bool){

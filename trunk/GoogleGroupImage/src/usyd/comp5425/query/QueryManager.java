@@ -56,14 +56,16 @@ public class QueryManager {
             List<String> list = new ArrayList<String>();
             FeatureModule module = FeatureModuleFactory.getInstance().getFeatureModule(name);
             Vector<Double> v =  module.getFeatureVector(image);
-            Collection<Integer> ids = dt.getAllFeaturesIDBy(name);
-            for(Integer i : ids){
-                FeatureInfo info = dt.getFeatureBy(i);
-                double diff = module.compareFeatureVector(v,info.getVector());
-                if(diff < module.getThreshold()){
-                    list.add(info.getImage());
+            synchronized(dt){
+                Collection<Integer> ids = dt.getAllFeaturesIDBy(name);
+                for(Integer i : ids){
+                    FeatureInfo info = dt.getFeatureBy(i);
+                    double diff = module.compareFeatureVector(v,info.getVector());
+                    if(diff < module.getThreshold()){
+                        list.add(info.getImage());
+                    }
+                    info = null;
                 }
-                info = null;
             }
             v = null;
             module = null;

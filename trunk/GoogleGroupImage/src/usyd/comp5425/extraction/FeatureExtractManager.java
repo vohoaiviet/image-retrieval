@@ -45,7 +45,7 @@ public class FeatureExtractManager {
         BufferedImage image = readImage(file);
         if(image == null)
             return features;
-         int [] pixels = getRGBPixels(image);
+        int [] pixels = getRGBPixels(image);
         String relative = file.getAbsolutePath().substring(length);
         for (Enumeration e = factory.getModulesName(); e.hasMoreElements() ;) {
             String moduleName = (String) e.nextElement();

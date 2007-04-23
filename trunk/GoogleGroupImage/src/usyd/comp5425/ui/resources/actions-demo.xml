@@ -105,6 +105,10 @@
             icon="/toolbarButtonGraphics/general/History24.gif"
             desc="Display a list of previously visited locations"/>
     
+    <!--  Define menu for look and feel -->
+  <action id ="look-and-feel-command"
+            name="Look And Feel"
+            desc="Change application look and feel"/>
     
     <!-- Define the main menu -->
   
@@ -132,6 +136,28 @@
                     smicon="/usyd/comp5425/ui/resources/ktip.png"
                     icon="/usyd/comp5425/ui/resources/ktip.png"
                     desc="Shows or hides the status bar"/>
+        </action-list>
+        <action-list id="lookandfeel" idref="look-and-feel-command">
+            <group id="look">
+                <action id="SubstanceBusinessLookAndFeel"
+                        type="toggle"
+                        name="Business"/>
+                <action id="SubstanceBusinessBlackSteelLookAndFeel"
+                        type="toggle"
+                        name="Business Black Steel"/>       
+                <action id="SubstanceCremeLookAndFeel"
+                        type="toggle"
+                        name="Creme"/>   
+                <action id="SubstanceSaharaLookAndFeel"
+                        type="toggle"
+                        name="Sahara"/>
+                <action id="SubstanceModerateLookAndFeel"
+                        type="toggle"
+                        name="Moderate"/>
+                <action id="SubstanceOfficeSilver2007LookAndFeel"
+                        type="toggle"
+                        name="Office Silver 2007"/>
+            </group>
         </action-list>
         <!-- The following help-menu action-list demonstrated an inline definition
          of an action. This may be more convenient then defining the action separately -->

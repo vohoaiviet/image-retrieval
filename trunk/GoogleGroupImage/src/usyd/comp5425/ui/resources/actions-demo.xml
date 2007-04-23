@@ -106,7 +106,7 @@
             desc="Display a list of previously visited locations"/>
     
     <!--  Define menu for look and feel -->
-  <action id ="look-and-feel-command"
+    <action id ="look-and-feel-command"
             name="Look And Feel"
             desc="Change application look and feel"/>
     
@@ -139,21 +139,21 @@
         </action-list>
         <action-list id="lookandfeel" idref="look-and-feel-command">
             <group id="look">
+                <action id="SubstanceCremeLookAndFeel"
+                        type="toggle"
+                        name="Creme"/>   
+                <action id="SubstanceModerateLookAndFeel"
+                        type="toggle"
+                        name="Moderate"/>
+                <action id="SubstanceSaharaLookAndFeel"
+                        type="toggle"
+                        name="Sahara"/>
                 <action id="SubstanceBusinessLookAndFeel"
                         type="toggle"
                         name="Business"/>
                 <action id="SubstanceBusinessBlackSteelLookAndFeel"
                         type="toggle"
                         name="Business Black Steel"/>       
-                <action id="SubstanceCremeLookAndFeel"
-                        type="toggle"
-                        name="Creme"/>   
-                <action id="SubstanceSaharaLookAndFeel"
-                        type="toggle"
-                        name="Sahara"/>
-                <action id="SubstanceModerateLookAndFeel"
-                        type="toggle"
-                        name="Moderate"/>
                 <action id="SubstanceOfficeSilver2007LookAndFeel"
                         type="toggle"
                         name="Office Silver 2007"/>

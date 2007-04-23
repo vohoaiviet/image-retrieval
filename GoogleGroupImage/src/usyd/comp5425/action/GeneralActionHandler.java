@@ -36,6 +36,7 @@ public class GeneralActionHandler {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
         ActionManager.getInstance().setEnabled("save-command", false);
+        ActionManager.getInstance().setEnabled("new-command", false);
     }
     @Action("statusbar-command")
     public void handleStatusBarAction(boolean flag){
@@ -44,14 +45,17 @@ public class GeneralActionHandler {
     @Action("show-viewer-command")
     public void handleShowViewerCommand(boolean flag) {
         frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
+        ActionManager.getInstance().setEnabled("new-command", false);
     }
     @Action("show-query-command")
     public void handleShowQueryFormCommand(boolean flag) {
         frame.setVisiblePanel(frame.QUERY_FROM_PANEL);
+        ActionManager.getInstance().setEnabled("new-command", false);
     }
     @Action("show-painter-command")
     public void handleShowPainterCommand(boolean flag) {
         frame.setVisiblePanel(frame.PAINT_PANEL);
+        ActionManager.getInstance().setEnabled("new-command", true);
     }
     @Action("exit-command")
     public void handleExit(){

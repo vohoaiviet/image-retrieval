@@ -27,4 +27,5 @@ public interface DataTap {
     public boolean remove(int id);
     public boolean remove(FeatureInfo feature);
     public boolean remove(String image);
+    public boolean exists(String image);
 }

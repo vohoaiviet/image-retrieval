@@ -15,6 +15,7 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
@@ -36,10 +37,12 @@ import usyd.comp5425.util.LRUCache;
 public class QueryActionHandler implements QueryListener{
     
     private  ImageAppFrame frame;
+    private  JThumbnailPanel thumbPanel;
     private  QueryManager manager;
     private  LRUCache<String,BufferedImage> cache;
-    /** Creates a new instance of QueryActionHandler */
-    private  StringBuffer path ;
+    private  String pattern = "Found image about {0} in {1} seconds";
+    private  long  startTime;
+    
     public QueryActionHandler(ImageAppFrame frame) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
@@ -48,7 +51,7 @@ public class QueryActionHandler implements QueryListener{
         cache = new LRUCache<String,BufferedImage>(200);
         ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
         ImageIO.setUseCache(true);
-        
+        thumbPanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
     }
     @Action("query-command")
     public void handleQueryAction(){
@@ -61,7 +64,6 @@ public class QueryActionHandler implements QueryListener{
                     manager.query(panel.getSelectedFeatures(),file);
                 }
                 panel = null;
-                path  = null;
                 return null;
             }
         };
@@ -80,23 +82,17 @@ public class QueryActionHandler implements QueryListener{
     }
     
     public void queryStarted(String text) {
+        startTime = System.currentTimeMillis();
         EventQueue.invokeLater(new Runnable(){
             public void run(){
-                JThumbnailPanel panel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
-                panel.getListModel().clear();
+                thumbPanel.getListModel().clear();
                 frame.getProgressPane().setText("Querying is in progress...");
                 frame.getProgressPane().start();
                 frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
             }
         });
     }
-    
     public void queryFinished(String text) {
-        EventQueue.invokeLater(new Runnable(){
-            public void run(){
-                frame.getProgressPane().stop();
-            }
-        });
     }
     @Action("imlucky-command")
     public void handleLuckyBrowse(){
@@ -118,26 +114,32 @@ public class QueryActionHandler implements QueryListener{
     }
     
     public void itemFound(final List<String> list) {
-        SwingWorker worker = new SwingWorker<DefaultListModel, Object>(){
+        SwingWorker worker = new SwingWorker<DefaultListModel, String>(){
             @Override
             protected DefaultListModel doInBackground() throws Exception {
-                StringBuffer  path = new StringBuffer(System.getProperty("user.dir"));
-                path.append(File.separatorChar);
-                path.append("images");
-                path.append(File.separatorChar);
-                int start = path.length();
+                StringBuffer userdir = new StringBuffer(System.getProperty("user.dir"));
+                userdir.append(File.separatorChar);
+                userdir.append("images");
+                userdir.append(File.separatorChar);
                 DefaultListModel model = new DefaultListModel();
+                File file;
                 for(String text : list){
                     BufferedImage image = null;
                     synchronized(cache) {
-                        path.delete(start,path.length());
-                        path.append(text);
-                        image = cache.get(path.toString());
+                        if(text.indexOf(":")>0)
+                            file = new File(text);
+                        else
+                            file = new File(userdir.toString(),text);
+                        image = cache.get(file.getAbsolutePath());
+                        publish(file.toString());
                         if(image == null){
                             try {
-                                image = ImageIO.read(new File(path.toString()));
+                                if(text.indexOf(":")>0)
+                                    image = ImageIO.read(new File(text));
+                                else
+                                    image = ImageIO.read(new File(userdir.toString(),text));
                                 image = GraphicsUtilities.createThumbnailFast(image,128, 100);
-                                cache.put(text,image);
+                                cache.put(file.getAbsolutePath(),image);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
@@ -147,18 +149,31 @@ public class QueryActionHandler implements QueryListener{
                     }
                 }
                 list.clear();
-                path = null;
+                userdir = null;
+                System.gc();
                 return model;
             }
             @Override
-            public void done(){
+            protected void done(){
                 try {
-                    JThumbnailPanel panel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
-                    panel.setListModel(get());
+                    frame.getProgressPane().stop();
+                    thumbPanel.setListModel(get());
+                    int size = thumbPanel.getListModel().size();
+                    long duration = (System.currentTimeMillis() - startTime) /1000;
+                    String text = MessageFormat.format(pattern, new Object []{size,duration});
+                    frame.setStatusText(text);
+                    System.out.println(text);
+                    
                 } catch (ExecutionException ex) {
                     ex.printStackTrace();
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
+                }
+            }
+            @Override
+            protected void process(List<String> txts){
+                for(String txt : txts){
+                    frame.setStatusText("Found image :" + txt);
                 }
             }
         };

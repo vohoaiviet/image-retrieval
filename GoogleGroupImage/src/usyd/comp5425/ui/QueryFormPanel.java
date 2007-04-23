@@ -7,9 +7,13 @@
 package usyd.comp5425.ui;
 
 import com.sun.jaf.ui.ActionManager;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import javax.imageio.ImageIO;
 import javax.swing.JTextField;
+import org.jdesktop.swingworker.SwingWorker;
 
 /**
  *
@@ -32,6 +36,7 @@ public class QueryFormPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+        previewLabel = new javax.swing.JLabel();
         queryBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -43,6 +48,7 @@ public class QueryFormPanel extends javax.swing.JPanel {
         globalColorBox = new javax.swing.JCheckBox();
         geoBox = new javax.swing.JCheckBox();
         luckyBtn = new javax.swing.JButton();
+        navigableImagePanel1 = new usyd.comp5425.ui.NavigableImagePanel();
 
         queryBtn.setText("IMSmart Search");
 
@@ -56,7 +62,7 @@ public class QueryFormPanel extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(browseBtn)
                 .addContainerGap())
@@ -126,35 +132,56 @@ public class QueryFormPanel extends javax.swing.JPanel {
 
         luckyBtn.setText("I'm Feeling Lucky");
 
+        navigableImagePanel1.setNavigationImageEnabled(false);
+        org.jdesktop.layout.GroupLayout navigableImagePanel1Layout = new org.jdesktop.layout.GroupLayout(navigableImagePanel1);
+        navigableImagePanel1.setLayout(navigableImagePanel1Layout);
+        navigableImagePanel1Layout.setHorizontalGroup(
+            navigableImagePanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 366, Short.MAX_VALUE)
+        );
+        navigableImagePanel1Layout.setVerticalGroup(
+            navigableImagePanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 288, Short.MAX_VALUE)
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(30, 30, 30)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(46, 46, 46)
                         .add(queryBtn)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(luckyBtn)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
-                    .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(240, Short.MAX_VALUE))
+                        .add(luckyBtn))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(navigableImagePanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(14, 14, 14)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(luckyBtn)
-                    .add(queryBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(28, 28, 28)
+                        .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(14, 14, 14)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(luckyBtn)
+                            .add(queryBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(layout.createSequentialGroup()
+                        .add(36, 36, 36)
+                        .add(navigableImagePanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -218,6 +245,9 @@ public class QueryFormPanel extends javax.swing.JPanel {
         this.sampleFile = sampleFile;
         jTextField1.setText(sampleFile.getAbsolutePath());
         enableSearchButton();
+        browseBtn.setEnabled(false);
+        setPreviewImage(sampleFile);
+        
     }
     public void enableSearchButton(){
         queryBtn.setEnabled(false);
@@ -233,6 +263,28 @@ public class QueryFormPanel extends javax.swing.JPanel {
             queryBtn.setEnabled(true);
         
     }
+    
+    private void setPreviewImage(final File sampleFile) {
+        SwingWorker worker = new SwingWorker<BufferedImage,Object>(){
+            @Override
+            protected BufferedImage doInBackground() throws Exception {
+                return ImageIO.read(sampleFile);
+            }
+            @Override
+            public void done(){
+                try {
+                    navigableImagePanel1.setImage(get());
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                } catch (ExecutionException ex) {
+                    ex.printStackTrace();
+                }finally{
+                    browseBtn.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }
     private Vector<String> v = new Vector<String>(5);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox averageBox;
@@ -245,6 +297,8 @@ public class QueryFormPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JCheckBox localColorBox;
     private javax.swing.JButton luckyBtn;
+    private usyd.comp5425.ui.NavigableImagePanel navigableImagePanel1;
+    private javax.swing.JLabel previewLabel;
     private javax.swing.JButton queryBtn;
     // End of variables declaration//GEN-END:variables
     

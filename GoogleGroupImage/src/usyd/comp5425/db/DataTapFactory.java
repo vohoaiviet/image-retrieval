@@ -14,13 +14,10 @@ package usyd.comp5425.db;
  * @author Yuezhong Zhang
  */
 public class DataTapFactory {
-    private static DataAccessObjectDerby derby;
+    private static DataAccessObjectDerby derby = new DataAccessObjectDerby();
     public DataTapFactory() {
     }
     public static DataTap createDataTap(){
-        if(derby == null){
-            derby = new DataAccessObjectDerby();
-        }
         return derby;
     }
     public static void close(){

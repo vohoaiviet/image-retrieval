@@ -9,13 +9,13 @@
 
 package usyd.comp5425;
 
-import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaLookAndFeel;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import usyd.comp5425.action.GeneralActionHandler;
 import usyd.comp5425.action.IndexActionHandler;
+import usyd.comp5425.action.LookAndFeelActionHandler;
 import usyd.comp5425.action.QueryActionHandler;
 import usyd.comp5425.db.DataTapFactory;
 import usyd.comp5425.ui.ImageAppFrame;
@@ -27,8 +27,9 @@ import usyd.comp5425.ui.ImageAppFrame;
 public class Application {
     public static void main(String args[]) {
         try {
-            UIManager.setLookAndFeel("org.jvnet.substance.SubstanceLookAndFeel");
-            // UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            System.setProperty("sun.awt.noerasebackground", "true");
+            UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +64,7 @@ public class Application {
         GeneralActionHandler gah = new GeneralActionHandler(frame);
         QueryActionHandler qh = new QueryActionHandler(frame);
         IndexActionHandler iah = new IndexActionHandler(frame);
+        LookAndFeelActionHandler lfh = new LookAndFeelActionHandler(frame);
     }
     
 }

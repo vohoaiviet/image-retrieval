@@ -235,7 +235,25 @@ public abstract class DataAccessObject implements DataTap{
             ex.printStackTrace();
             return false;
         }
-        
+    }
+    public boolean exists(String image){
+        try {
+            Connection con = connectionPool.getConnection();
+            pstmt = con.prepareStatement(format("SELECT {2} FROM {4} WHERE {2}=?",names));
+            pstmt.setString(1,image);
+            ResultSet rs = pstmt.executeQuery();
+            boolean exists = rs.next();
+            connectionPool.closeConnection(con);
+            rs.close();
+            pstmt.close();
+            rs  = null;
+            pstmt = null;
+            con = null;
+            return exists;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
     private Vector<Double> convert(String str){
         StringTokenizer tokenizer = new StringTokenizer(str,",");

@@ -60,7 +60,9 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="IMSmart v 1.0"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="getHeaderTitle()" type="code"/>
+        </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>

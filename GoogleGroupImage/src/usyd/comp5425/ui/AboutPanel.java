@@ -33,7 +33,7 @@ public class AboutPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("IMSmart v 1.0");
+        jLabel1.setText(getHeaderTitle());
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setText("Developers:");
@@ -87,7 +87,9 @@ public class AboutPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    
+    public String getHeaderTitle(){
+        return "IMSmart v"+ System.getProperty("app.version");
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

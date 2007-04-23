@@ -9,6 +9,7 @@
 
 package usyd.comp5425;
 
+import java.awt.EventQueue;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -26,14 +27,15 @@ import usyd.comp5425.ui.ImageAppFrame;
  */
 public class Application {
     public static void main(String args[]) {
+        System.setProperty("sun.awt.noerasebackground", "true");
+        System.setProperty("app.version", "1.2");
         try {
             JFrame.setDefaultLookAndFeelDecorated(true);
-            System.setProperty("sun.awt.noerasebackground", "true");
             UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ImageAppFrame frame = new ImageAppFrame();
                 initActionHandle(frame);
@@ -46,19 +48,16 @@ public class Application {
         System.setProperty("derby.url","jdbc:derby:myDB");
         System.setProperty("derby.system.home",System.getProperty("user.dir"));
         DataTapFactory.createDataTap();
-        StringBuffer sb = new StringBuffer(System.getProperty("user.dir"));
-        sb.append(File.separatorChar);
-        sb.append("images");
-        sb.append(File.separatorChar);
-        System.out.printf("Image folder:%s%n",sb);
-        File file = new File(sb.toString());
+        File file = new File(System.getProperty("user.dir"), "images");
+        System.out.println("Image folder " + file.getAbsolutePath());
         if(!file.exists()){
             file.mkdir();
+            System.out.println("created images directory");
         }
         file = null;
-        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
         ImageIO.setUseCache(true);
-        System.out.println("IMSmart v1.0 is ready");
+        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
+        System.out.println("IMSmart v"+ System.getProperty("app.version") +" is ready");
     }
     public static void initActionHandle(ImageAppFrame frame){
         GeneralActionHandler gah = new GeneralActionHandler(frame);

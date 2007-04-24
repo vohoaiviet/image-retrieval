@@ -35,6 +35,7 @@ public class Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("setup");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ImageAppFrame frame = new ImageAppFrame();
@@ -42,6 +43,7 @@ public class Application {
                 frame.setVisible(true);
             }
         });
+        
         File file = new File(System.getProperty("user.dir"), "images");
         System.out.println("Image folder " + file.getAbsolutePath());
         if(!file.exists()){
@@ -49,7 +51,6 @@ public class Application {
             System.out.println("created images directory");
         }
         file = null;
-        System.out.println("setup");
         System.setProperty("derby.user","admin");
         System.setProperty("derby.password","adminadmin");
         System.setProperty("derby.url","jdbc:derby:myDB");

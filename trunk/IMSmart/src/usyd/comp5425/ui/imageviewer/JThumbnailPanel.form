@@ -65,11 +65,13 @@
         <Component class="javax.swing.JButton" name="pageUpBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Previous"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="pageDownBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Next"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>

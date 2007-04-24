@@ -1,7 +1,7 @@
 /*
  * ImageListModel.java
  *
- * Created on 7 April 2007, 14:28
+ * Created on 24 April 2007, 15:23
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
@@ -12,45 +12,92 @@ package usyd.comp5425.ui.imageviewer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
+import usyd.comp5425.query.QueryResult;
 
 /**
  *
  * @author Yuezhong Zhang
  */
-public class ImageListModel extends AbstractListModel{
+public class ImageListModel extends AbstractListModel {
     
-    /** Creates a new instance of ImageListModel */
-    private ArrayList list = new ArrayList();
+    private ArrayList<QueryResult> list;
+    private int pageSize;
+    private int pageOffset;
+    
     public ImageListModel() {
-    }
-    public int getSize() {
-        return list.size();
+        this.pageSize   = 50;
+        this.pageOffset = 0;
+        list = new ArrayList<QueryResult> ();
     }
     
-    public Object getElementAt(int index) {
-        return list.get(index);
+    public int getSize() {
+        return Math.min(getPageSize(), list.size());
+    }
+    
+    public Object getElementAt(int row) {
+        int realRow = row + (getPageOffset() * getPageSize());
+        return list.get(realRow);
+    }
+    public int getPageOffset() {
+        return pageOffset;
+    }
+    
+    public void setPageOffset(int pageOffset) {
+        this.pageOffset = pageOffset;
+    }
+    
+    public int getPageSize() {
+        return pageSize;
+    }
+    
+    public void setPageSize(int s) {
+        if (s == pageSize) { return; }
+        int oldPageSize = pageSize;
+        pageSize = s;
+        pageOffset = (oldPageSize * pageOffset) / pageSize;
+        fireListDataChanged();
+    }
+    public int getPageCount(){
+        return (int)Math.ceil((double)list.size() / pageSize);
+    }
+    public int getRealRowCount() {
+        return  list.size();
+    }
+    public void pageUp(){
+        if (pageOffset > 0) {
+            pageOffset--;
+            fireListDataChanged();
+        }
+    }
+    public void pageDown(){
+        if (pageOffset < getPageCount() - 1) {
+            pageOffset++;
+            fireListDataChanged();
+        }
+    }
+    public boolean canPageUp(){
+        if(getPageOffset()==0)
+            return false;
+        return true;
+    }
+    public boolean canPageDown(){
+        return getPageOffset() < getPageCount()-1 ;
+    }
+    private void fireListDataChanged(){
+        fireIntervalRemoved(this, 0, getSize()-1);
+        fireIntervalAdded(this, 0, getSize()-1);
+    }
+    public void clear() {
+        list.clear();
+        fireIntervalRemoved(this, 0, getSize());
+    }
+    public void add(QueryResult obj){
+        list.add(obj);
+        fireListDataChanged();
         
     }
-    public void add(Object obj){
-        if(obj != null){
-            this.list.add(obj);
-            int index = list.size();
-            super.fireContentsChanged(this,0,0);
-            // super.fireIntervalAdded(this,0, list.size());
-        }
-        System.out.println("list size=" + list.size());
-    }
-    public void add(List list){
-        int index = list.size();
-        this.list.addAll(list);
-        super.fireContentsChanged(this,0,0);
-    }
-    public void remove(Object obj){
-        this.list.remove(obj);
-        super.fireContentsChanged(this,0,0);
-    }
-    public void clear(){
-        this.list.clear();
-        super.fireContentsChanged(this,0,list.size());
+    public void add(List<QueryResult> rs){
+        list.addAll(rs);
+        fireListDataChanged();
     }
 }

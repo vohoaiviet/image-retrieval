@@ -50,10 +50,10 @@ public class QueryManager {
             ex.printStackTrace();
         }
         DataTap dt = DataTapFactory.createDataTap();
-        Vector<List<String>> vect = new Vector<List<String>>();
+        Vector<List<QueryResult>> vect = new Vector<List<QueryResult>>();
         for(String name : vector){
             System.out.println("query with " + name);
-            List<String> list = new ArrayList<String>();
+            List<QueryResult> list = new ArrayList<QueryResult>();
             FeatureModule module = FeatureModuleFactory.getInstance().getFeatureModule(name);
             Vector<Double> v =  module.getFeatureVector(image);
             synchronized(dt){
@@ -62,7 +62,8 @@ public class QueryManager {
                     FeatureInfo info = dt.getFeatureBy(i);
                     double diff = module.compareFeatureVector(v,info.getVector());
                     if(diff < module.getThreshold()){
-                        list.add(info.getImage());
+                        double percentDiff = Math.abs(module.getThreshold() - diff) /module.getThreshold();
+                        list.add(new QueryResult(info.getImage(),percentDiff));
                     }
                     info = null;
                 }
@@ -71,23 +72,23 @@ public class QueryManager {
             module = null;
             vect.add(list);
         }
-        List<String> tmp = new LinkedList<String>();
+        List<QueryResult> tmp = new LinkedList<QueryResult>();
         for(List l : vect){
             if(l.size()>tmp.size())
                 tmp = l;
         }
         vect.remove(tmp);
-        List<String> resultList = new ArrayList<String>();
-        for(String path : tmp){
+        List<QueryResult> resultList = new ArrayList<QueryResult>();
+        for(QueryResult result : tmp){
             boolean ok = false;
             int count = 0;
-            for(List<String> l : vect){
-                if(l.contains(path)){
+            for(List<QueryResult> l : vect){
+                if(l.contains(result)){
                     count++;
                 }
             }
             if(count == vect.size()){
-                resultList.add(path);
+                resultList.add(result);
             }
         }
         this.fireQueryListenerItemFound(resultList);
@@ -98,25 +99,31 @@ public class QueryManager {
     }
     public void luckyQuery(){
         this.fireQueryListenerQueryStarted(null);
+        int size = 100;
+        List<QueryResult> resultList = new ArrayList<QueryResult>();
         DataTap dt = DataTapFactory.createDataTap();
-        List<String> list = FeatureModuleFactory.getInstance().getModulesNameList();
-        int index = getRandomNumber(list.size());
-        ArrayList<Integer> ids = (ArrayList)dt.getAllFeaturesIDBy(list.get(index));
-        List<String> resultList = new ArrayList<String>();
-        if(ids.size() >0){
-            index = getRandomNumber(ids.size());
-            for(int i=0; i<index; i++){
-                int pos = (int) (Math.random() * ids.size());
+        List nameList = FeatureModuleFactory.getInstance().getModulesNameList();
+        int index = getRandomNumber(nameList.size()-1);
+        synchronized(dt){
+            ArrayList<Integer> ids = (ArrayList) dt.getAllFeaturesIDBy((String) nameList.get(index));
+            nameList = null;
+            if(size >=ids.size())
+                size = ids.size() -1;
+            for (int i = 0; i < size; i++) {
+                int pos = (int) (Math.random() * (ids.size()-10));
                 FeatureInfo info =  dt.getFeatureBy(ids.get(pos));
-                resultList.add(info.getImage());
+                resultList.add(new QueryResult(info.getImage(),0.0d));
             }
+            
+            ids.clear();
+            ids = null;
         }
         fireQueryListenerItemFound(resultList);
         this.fireQueryListenerQueryFinished(null);
         
     }
     public int getRandomNumber(int max){
-        return  (int)(Math.random() * max);
+        return  Math.abs( (int)(Math.random() * max));
     }
     /**
      * Utility field used by event firing mechanism.
@@ -177,12 +184,12 @@ public class QueryManager {
      *
      * @param event The event to be fired
      */
-    private void fireQueryListenerItemFound(List<String> text) {
+    private void fireQueryListenerItemFound(List<QueryResult> resultList) {
         if (listenerList == null) return;
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i]==usyd.comp5425.query.QueryListener.class) {
-                ((usyd.comp5425.query.QueryListener)listeners[i+1]).itemFound(text);
+                ((usyd.comp5425.query.QueryListener)listeners[i+1]).itemFound(resultList);
             }
         }
     }

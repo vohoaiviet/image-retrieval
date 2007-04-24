@@ -37,25 +37,24 @@ public abstract class FeatureModule {
      *
      * enc (q,r ) = squareRoot ( sum( (( v1(y) -v2)) * (( v1(y) -v2))) power 1/2
      *
-     * @see http://www.dcs.shef.ac.uk/~sam/stringmetrics.html#dist
+     * @see http://planetmath.org/encyclopedia/EuclideanDistance.html
      * @param v1  vector1
      * @param v2  vector2
      * @return    a double number indicates how close these two vectors.
      */
     public double compareFeatureVector(Vector<Double> v1, Vector<Double> v2) {
         int size = v1.size();
-        if(size != v2.size()){
+        double first,second,total;
+        if (size!=v2.size())
             return 99999.9;
+        total=0;
+        for (int i=0;i<size;i++) {
+            first  = v1.elementAt(i);
+            second = v2.elementAt(i);
+            total+=(first - second)*(first - second);
         }
-        double total = 0.0d;
-        double first = 0.0d;
-        double second = 0.0d;
-        for(int i =0; i <size; i++ ){
-            first = v1.get(i);
-            second = v2.get(i);
-            total += (first - second) * (first - second);
-        }
-        return Math.sqrt(total / size);
+        return Math.sqrt(total);
+        
     }
     public  Vector <Double> getFeatureVector(BufferedImage image){
         int [] rgb = image.getRGB(0,0,image.getWidth(),image.getHeight(),null,0,image.getWidth());

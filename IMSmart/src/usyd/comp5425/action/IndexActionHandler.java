@@ -57,6 +57,7 @@ public class IndexActionHandler {
     @Action("open-command")
     public void handleIndexAction(){
         JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode(jfc.FILES_AND_DIRECTORIES);
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File file  = jfc.getSelectedFile();
             list.add(file);
@@ -101,7 +102,7 @@ public class IndexActionHandler {
                                 publish("features already in database " + file.getName());
                             }
                         }
-                        Thread.sleep(200L);
+                        Thread.sleep(500L);
                     }
                     System.out.println("Finished");
                     return null;

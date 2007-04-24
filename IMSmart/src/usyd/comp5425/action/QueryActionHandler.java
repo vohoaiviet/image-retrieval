@@ -16,16 +16,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import org.jdesktop.swingworker.SwingWorker;
 import usyd.comp5425.query.QueryListener;
 import usyd.comp5425.query.QueryManager;
+import usyd.comp5425.query.QueryResult;
 import usyd.comp5425.ui.ImageAppFrame;
 import usyd.comp5425.ui.QueryFormPanel;
+import usyd.comp5425.ui.imageviewer.ImageListModel;
 import usyd.comp5425.ui.imageviewer.JThumbnailPanel;
 import usyd.comp5425.util.GraphicsUtilities;
 import usyd.comp5425.util.LRUCache;
@@ -83,14 +85,15 @@ public class QueryActionHandler implements QueryListener{
     
     public void queryStarted(String text) {
         startTime = System.currentTimeMillis();
+        thumbPanel.setListModel(new ImageListModel());
         EventQueue.invokeLater(new Runnable(){
             public void run(){
-                thumbPanel.getListModel().clear();
                 frame.getProgressPane().setText("Querying is in progress...");
                 frame.getProgressPane().start();
                 frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
             }
         });
+        System.gc();
     }
     public void queryFinished(String text) {
     }
@@ -113,17 +116,17 @@ public class QueryActionHandler implements QueryListener{
         worker.execute();
     }
     
-    public void itemFound(final List<String> list) {
-        SwingWorker worker = new SwingWorker<DefaultListModel, String>(){
+    public void itemFound(final List<QueryResult> list) {
+        SwingWorker worker = new SwingWorker<ImageListModel, String>(){
             @Override
-            protected DefaultListModel doInBackground() throws Exception {
+            protected ImageListModel doInBackground() throws Exception {
                 StringBuffer userdir = new StringBuffer(System.getProperty("user.dir"));
                 userdir.append(File.separatorChar);
                 userdir.append("images");
                 userdir.append(File.separatorChar);
-                DefaultListModel model = new DefaultListModel();
                 File file;
-                for(String text : list){
+                for(QueryResult result : list){
+                    String text = result.getImage();
                     BufferedImage image = null;
                     synchronized(cache) {
                         if(text.indexOf(":")>0)
@@ -135,21 +138,29 @@ public class QueryActionHandler implements QueryListener{
                         if(image == null){
                             try {
                                 if(text.indexOf(":")>0)
-                                    image = ImageIO.read(new File(text));
+                                    image = ImageIO.read(file);
                                 else
-                                    image = ImageIO.read(new File(userdir.toString(),text));
-                                image = GraphicsUtilities.createThumbnailFast(image,128, 100);
+                                    image = ImageIO.read(file);
+                                if(image.getWidth() >160 || image.getHeight()>128)
+                                    image = GraphicsUtilities.createThumbnailFast(image,160, 128);
                                 cache.put(file.getAbsolutePath(),image);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
                         }
-                        if(image !=null)
-                            model.addElement(image);
+                        if(image !=null){
+                            result.setBufferedImage(image);
+                            result.setImage(file.getAbsolutePath());
+                        }
                     }
                 }
-                list.clear();
+                Collections.sort(list);
                 userdir = null;
+                ImageListModel model = new ImageListModel();
+                for(QueryResult result :list){
+                    model.add(result);
+                }
+                list.clear();
                 System.gc();
                 return model;
             }
@@ -158,12 +169,11 @@ public class QueryActionHandler implements QueryListener{
                 try {
                     frame.getProgressPane().stop();
                     thumbPanel.setListModel(get());
-                    int size = thumbPanel.getListModel().size();
+                    int size = thumbPanel.getListModel().getRealRowCount();
                     long duration = (System.currentTimeMillis() - startTime) /1000;
                     String text = MessageFormat.format(pattern, new Object []{size,duration});
                     frame.setStatusText(text);
                     System.out.println(text);
-                    
                 } catch (ExecutionException ex) {
                     ex.printStackTrace();
                 } catch (InterruptedException ex) {

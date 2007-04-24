@@ -26,7 +26,7 @@ public class ImageAppFrame extends JFrame {
         initActions();
         initComponents();
         this.setTitle("IMSmart v"+System.getProperty("app.version"));
-        this.setSize(850,600);
+        this.setSize(900,650);
         this.setProgressPane(new ProgressGlassPane());
         this.setLocationRelativeTo(null);
     }
@@ -51,6 +51,7 @@ public class ImageAppFrame extends JFrame {
             toolbar.setFloatable(false);
             getContentPane().add(toolbar, BorderLayout.NORTH);
         }
+        JPopupMenu popup = factory.createPopup("popup-menu");
 
         mainPanel = new javax.swing.JPanel();
         queryFormPanel1 = new usyd.comp5425.ui.QueryFormPanel();
@@ -65,6 +66,9 @@ public class ImageAppFrame extends JFrame {
 
         mainPanel.add(paintPanel1, "paintPanel");
 
+        if(popup !=null){
+            jThumbnailPanel1.setPopupMenu(popup);
+        }
         mainPanel.add(jThumbnailPanel1, "thumbnailPanel");
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);

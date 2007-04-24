@@ -73,6 +73,7 @@ public class QueryManager {
             module = null;
             vect.add(list);
             try {
+                System.gc();
                 Thread.sleep(300L);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

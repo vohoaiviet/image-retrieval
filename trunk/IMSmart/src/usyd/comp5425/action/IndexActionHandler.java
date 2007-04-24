@@ -103,6 +103,7 @@ public class IndexActionHandler {
                             }
                         }
                         try {
+                            System.gc();
                             Thread.sleep(300L);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();

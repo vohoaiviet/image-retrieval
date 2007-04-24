@@ -31,7 +31,11 @@ public class ImageListModel extends AbstractListModel {
     }
     
     public int getSize() {
-        return Math.min(getPageSize(), list.size());
+        if(list.size() == 0)
+            return 0;
+        if(getPageOffset() == getPageCount() -1)
+            return list.size() - (getPageOffset() * getPageSize());
+        return pageSize;
     }
     
     public Object getElementAt(int row) {

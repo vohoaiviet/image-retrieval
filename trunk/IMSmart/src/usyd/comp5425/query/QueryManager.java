@@ -66,7 +66,13 @@ public class QueryManager {
                         list.add(new QueryResult(info.getImage(),percentDiff));
                     }
                     info = null;
+                    try {
+                        Thread.sleep(300L);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+                ids = null;
             }
             v = null;
             module = null;

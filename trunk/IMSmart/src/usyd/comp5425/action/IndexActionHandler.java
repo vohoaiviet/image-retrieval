@@ -102,7 +102,7 @@ public class IndexActionHandler {
                                 publish("features already in database " + file.getName());
                             }
                         }
-                        Thread.sleep(500L);
+                        
                     }
                     System.out.println("Finished");
                     return null;
@@ -147,6 +147,11 @@ public class IndexActionHandler {
             features.add(info);
             info = null;
             module = null;
+            try {
+                Thread.sleep(500L);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         }
         image = null;
         factory = null;

@@ -63,9 +63,11 @@ public class JThumbnailPanel extends javax.swing.JPanel {
         pagePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         pageUpBtn.setText("Previous");
+        pageUpBtn.setEnabled(false);
         pagePanel.add(pageUpBtn);
 
         pageDownBtn.setText("Next");
+        pageDownBtn.setEnabled(false);
         pagePanel.add(pageDownBtn);
 
         add(pagePanel, java.awt.BorderLayout.SOUTH);

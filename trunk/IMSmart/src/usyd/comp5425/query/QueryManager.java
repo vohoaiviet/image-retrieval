@@ -73,7 +73,6 @@ public class QueryManager {
             module = null;
             vect.add(list);
             try {
-                System.gc();
                 Thread.sleep(300L);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
@@ -102,7 +101,6 @@ public class QueryManager {
         this.fireQueryListenerQueryFinished(null);
         tmp = null;
         vect = null;
-        System.gc();
     }
     public void luckyQuery(){
         this.fireQueryListenerQueryStarted(null);
@@ -120,9 +118,8 @@ public class QueryManager {
                 int pos = (int) (Math.random() * (ids.size()-10));
                 FeatureInfo info =  dt.getFeatureBy(ids.get(pos));
                 resultList.add(new QueryResult(info.getImage(),0.0d));
+                info = null;
             }
-            
-            ids.clear();
             ids = null;
         }
         fireQueryListenerItemFound(resultList);

@@ -157,9 +157,7 @@ public class QueryActionHandler implements QueryListener{
                 Collections.sort(list);
                 userdir = null;
                 ImageListModel model = new ImageListModel();
-                for(QueryResult result :list){
-                    model.add(result);
-                }
+                model.add(list);
                 list.clear();
                 System.gc();
                 return model;

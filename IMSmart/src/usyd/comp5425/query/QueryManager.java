@@ -30,7 +30,9 @@ import usyd.comp5425.image.FeatureModuleFactory;
  */
 public class QueryManager {
     private final static QueryManager manager = new QueryManager();
+    private boolean debug = false;
     private QueryManager() {
+        debug = Boolean.parseBoolean(System.getProperty("debugEnabled"));
     }
     public static QueryManager getInstance(){
         return manager;
@@ -52,7 +54,8 @@ public class QueryManager {
         DataTap dt = DataTapFactory.createDataTap();
         Vector<List<QueryResult>> vect = new Vector<List<QueryResult>>();
         for(String name : vector){
-            System.out.println("query with " + name);
+           if(debug)
+               System.out.println("query with " + name);
             List<QueryResult> list = new ArrayList<QueryResult>();
             FeatureModule module = FeatureModuleFactory.getInstance().getFeatureModule(name);
             Vector<Double> v =  module.getFeatureVector(image);
@@ -72,6 +75,8 @@ public class QueryManager {
             v = null;
             module = null;
             vect.add(list);
+            if(debug)
+                System.out.println(name + " found " + list.size());
             try {
                 Thread.sleep(300L);
             } catch (InterruptedException ex) {
@@ -84,6 +89,7 @@ public class QueryManager {
                 tmp = l;
         }
         vect.remove(tmp);
+        
         List<QueryResult> resultList = new ArrayList<QueryResult>();
         for(QueryResult result : tmp){
             boolean ok = false;

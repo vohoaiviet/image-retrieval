@@ -44,7 +44,7 @@ public class LocalColorHistogram extends FeatureModule{
         }
         for(i=0 ; i<gridCount ; i++)
             for(j=0 ; j<64 ; j++)
-                localColorHistogram.add(round((histogram[i][j]/(size/gridCount))));
+                localColorHistogram.add(round(((double)histogram[i][j]/(size/gridCount))));
         histogram = null;
         return localColorHistogram;
         
@@ -56,7 +56,7 @@ public class LocalColorHistogram extends FeatureModule{
         return cell;
     }
     public double getThreshold() {
-        return 6.4d;
+        return 0.35d;
     }
     
     public int getFeatureLength() {

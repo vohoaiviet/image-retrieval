@@ -42,12 +42,6 @@ public class Application {
                 frame.setVisible(true);
             }
         });
-        System.out.println("setup");
-        System.setProperty("derby.user","admin");
-        System.setProperty("derby.password","adminadmin");
-        System.setProperty("derby.url","jdbc:derby:myDB");
-        System.setProperty("derby.system.home",System.getProperty("user.dir"));
-        DataTapFactory.createDataTap();
         File file = new File(System.getProperty("user.dir"), "images");
         System.out.println("Image folder " + file.getAbsolutePath());
         if(!file.exists()){
@@ -55,6 +49,12 @@ public class Application {
             System.out.println("created images directory");
         }
         file = null;
+        System.out.println("setup");
+        System.setProperty("derby.user","admin");
+        System.setProperty("derby.password","adminadmin");
+        System.setProperty("derby.url","jdbc:derby:myDB");
+        System.setProperty("derby.system.home",System.getProperty("user.dir"));
+        DataTapFactory.createDataTap();
         ImageIO.setUseCache(true);
         ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
         System.out.println("IMSmart v"+ System.getProperty("app.version") +" is ready");

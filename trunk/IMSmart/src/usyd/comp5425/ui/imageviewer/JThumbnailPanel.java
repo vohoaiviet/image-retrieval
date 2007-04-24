@@ -6,7 +6,9 @@
 
 package usyd.comp5425.ui.imageviewer;
 
-import javax.swing.DefaultListModel;
+import com.sun.jaf.ui.ActionManager;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -17,10 +19,12 @@ public class JThumbnailPanel extends javax.swing.JPanel {
     public static final int THUMBSIZE_MEDIUM = 64;
     public static final int THUMBSIZE_LARGE = 160;
     public JThumbnailPanel() {
+        
         initComponents();
         this.setFixedCellHeight(THUMBSIZE_LARGE);
-        this.setFixedCellWidth(THUMBSIZE_LARGE);
-        this.imageList.setModel(new DefaultListModel());
+        this.setFixedCellWidth(THUMBSIZE_LARGE + 10);
+        initAction();
+        this.imageList.setModel(new ImageListModel());
     }
     
     /** This method is called from within the constructor to
@@ -30,41 +34,75 @@ public class JThumbnailPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+        javax.swing.JScrollPane jScrollPane1;
+        javax.swing.JPanel pagePanel;
+
         jScrollPane1 = new javax.swing.JScrollPane();
         imageList = new javax.swing.JList();
+        pagePanel = new javax.swing.JPanel();
+        pageUpBtn = new javax.swing.JButton();
+        pageDownBtn = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(1, 1, 5, 5));
+        setLayout(new java.awt.BorderLayout());
 
         imageList.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        imageList.setCellRenderer(new ImageCellRenderer());
+        imageList.setCellRenderer(cellRenderer);
         imageList.setDoubleBuffered(true);
         imageList.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
         imageList.setVisibleRowCount(0);
+        imageList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageListMouseClicked(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(imageList);
 
-        add(jScrollPane1);
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        pagePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        pageUpBtn.setText("Previous");
+        pagePanel.add(pageUpBtn);
+
+        pageDownBtn.setText("Next");
+        pagePanel.add(pageDownBtn);
+
+        add(pagePanel, java.awt.BorderLayout.SOUTH);
 
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void imageListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageListMouseClicked
+// TODO add your handling code here:
+        // if right mouse button clicked (or me.isPopupTrigger())
+        if (SwingUtilities.isRightMouseButton(evt) && !imageList.isSelectionEmpty() && imageList.locationToIndex(evt.getPoint()) == imageList.getSelectedIndex()) {
+            if(popupMenu !=null)
+                popupMenu.show(imageList, evt.getX(), evt.getY());
+        }
+        
+    }//GEN-LAST:event_imageListMouseClicked
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList imageList;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton pageDownBtn;
+    private javax.swing.JButton pageUpBtn;
     // End of variables declaration//GEN-END:variables
-    
+    private ResultListCellRenderer  cellRenderer = new ResultListCellRenderer();
     /**
      * Getter for property setModel.
      * @return Value of property setModel.
      */
-    public DefaultListModel getListModel() {
-        return (DefaultListModel)this.imageList.getModel();
+    public ImageListModel getListModel() {
+        return (ImageListModel)this.imageList.getModel();
     }
     
     /**
      * Setter for property setModel.
      * @param setModel New value of property setModel.
      */
-    public void setListModel(DefaultListModel model) {
+    public void setListModel(ImageListModel model) {
         this.imageList.setModel(model);
+        changePageButtonState();
     }
     
     
@@ -105,5 +143,22 @@ public class JThumbnailPanel extends javax.swing.JPanel {
     public void setImageList(javax.swing.JList imageList) {
         this.imageList = imageList;
     }
+    public void setRankingEnabled(boolean b){
+        cellRenderer.setRankingEnabled(b);
+        this.imageList.repaint();
+    }
     
+    private JPopupMenu popupMenu;
+    public void setPopupMenu(JPopupMenu menu){
+        this.popupMenu = menu;
+    }
+    private void initAction(){
+        pageUpBtn.setAction(ActionManager.getInstance().getAction("pageup-command"));
+        pageDownBtn.setAction(ActionManager.getInstance().getAction("pagedown-command"));
+    }
+
+    public void changePageButtonState() {
+        pageUpBtn.setEnabled(getListModel().canPageUp());
+        pageDownBtn.setEnabled(getListModel().canPageDown());
+    }
 }

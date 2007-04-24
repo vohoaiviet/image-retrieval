@@ -21,7 +21,7 @@
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainPanel">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="UIFactory factory = UIFactory.getInstance();&#xa;JMenuBar menubar = factory.createMenuBar(&quot;main-menu&quot;);&#xa;if (menubar != null) {&#xa;    setJMenuBar(menubar);&#xa;}&#xa;JToolBar toolbar = factory.createToolBar(&quot;main-toolbar&quot;);&#xa;if (toolbar != null) {&#xa;    toolbar.setFloatable(false);&#xa;    getContentPane().add(toolbar, BorderLayout.NORTH);&#xa;}&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="UIFactory factory = UIFactory.getInstance();&#xa;JMenuBar menubar = factory.createMenuBar(&quot;main-menu&quot;);&#xa;if (menubar != null) {&#xa;    setJMenuBar(menubar);&#xa;}&#xa;JToolBar toolbar = factory.createToolBar(&quot;main-toolbar&quot;);&#xa;if (toolbar != null) {&#xa;    toolbar.setFloatable(false);&#xa;    getContentPane().add(toolbar, BorderLayout.NORTH);&#xa;}&#xa;JPopupMenu popup = factory.createPopup(&quot;popup-menu&quot;);&#xa;"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -46,6 +46,9 @@
           </Constraints>
         </Component>
         <Component class="usyd.comp5425.ui.imageviewer.JThumbnailPanel" name="jThumbnailPanel1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if(popup !=null){&#xa;    jThumbnailPanel1.setPopupMenu(popup);&#xa;}"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="thumbnailPanel"/>

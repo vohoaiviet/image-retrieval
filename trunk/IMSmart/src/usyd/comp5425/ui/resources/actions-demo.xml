@@ -99,15 +99,24 @@
 
     <action id="statusbar-command"
             type="toggle"
-            name="History"
-            mnemonic="T"
-            smicon="/toolbarButtonGraphics/general/History16.gif"
-            icon="/toolbarButtonGraphics/general/History24.gif"
-            desc="Display a list of previously visited locations"/>
+            name="Show Status Bar" 
+            mnemonic="B"
+            smicon="/usyd/comp5425/ui/resources/ktip.png"
+            icon="/usyd/comp5425/ui/resources/ktip.png"
+            desc="Shows or hides the status bar"/>
+    
+    <action id="ranking-command"
+            type="toggle"
+            name="Show Ranking"
+            mnemonic="R"
+            smicon="/usyd/comp5425/ui/resources/rank.png"
+            icon="/usyd/comp5425/ui/resources/rank.png"
+            desc="Display ranking results"/> 
     
     <!--  Define menu for look and feel -->
     <action id ="look-and-feel-command"
-            name="Look And Feel"
+            name="Theme"
+            mnemonic="T"
             desc="Change application look and feel"/>
     
     <!-- Define the main menu -->
@@ -128,14 +137,8 @@
                 <action idref="show-viewer-command"/>
             </group>
             <empty/>
-            <!-- The following command demonstrates attribute overloading. The history command now has
-           the properties of a "Show Status Bar" command -->
-            <action idref="statusbar-command" 
-                    name="Show Status Bar" 
-                    mnemonic="B"
-                    smicon="/usyd/comp5425/ui/resources/ktip.png"
-                    icon="/usyd/comp5425/ui/resources/ktip.png"
-                    desc="Shows or hides the status bar"/>
+            <action idref="ranking-command"/>
+            <action idref="statusbar-command"/>
         </action-list>
         <action-list id="lookandfeel" idref="look-and-feel-command">
             <group id="look">
@@ -191,4 +194,31 @@
     <action id="imlucky-command"
             name="I'm Feeling Lucky"
             desc="Randomly browsing Images"/>
+    <action id="view-result-command"
+            name="View"
+            desc="View selected image"/>
+    <action id="query-result-command"
+            name="Query"
+            desc="Query selected image"/>
+    <action id="vote-result-command"
+            name="Vote"
+            desc="Vote selected image"/>
+    
+    <action id="pageup-command"
+            name="Previous"
+            smicon="/usyd/comp5425/ui/resources/previous.png"
+            icon="/usyd/comp5425/ui/resources/previous.png"
+            desc="Goto previous page"/>
+    <action id="pagedown-command"
+            name="Next"
+            smicon="/usyd/comp5425/ui/resources/next.png"
+            icon="/usyd/comp5425/ui/resources/next.png"
+            desc="Goto next page"/>
+    
+    <action-list id="popup-menu">
+        <action idref="view-result-command"/>
+        <action idref="query-result-command"/>
+        <action idref="vote-result-command"/>
+    </action-list>
+    
 </action-set>

@@ -14,13 +14,18 @@ import com.sun.jaf.ui.ActionManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import usyd.comp5425.db.DataTapFactory;
+import usyd.comp5425.query.QueryResult;
 import usyd.comp5425.ui.AboutPanel;
 import usyd.comp5425.ui.ImageAppFrame;
 import usyd.comp5425.ui.PaintPanel;
+import usyd.comp5425.ui.QueryFormPanel;
+import usyd.comp5425.ui.imageviewer.ImageListModel;
+import usyd.comp5425.ui.imageviewer.JThumbnailPanel;
 
 /**
  *
@@ -37,16 +42,12 @@ public class GeneralActionHandler {
         ActionManager.getInstance().registerActionHandler(this);
         ActionManager.getInstance().setEnabled("save-command", false);
         ActionManager.getInstance().setEnabled("new-command", false);
+        ActionManager.getInstance().setSelected("ranking-command",true);
+        ActionManager.getInstance().setSelected("statusbar-command",true);
+        ActionManager.getInstance().setSelected("show-query-command",true);
+        
     }
-    @Action("statusbar-command")
-    public void handleStatusBarAction(boolean flag){
-        frame.getStatusBar().setVisible(flag);
-    }
-    @Action("show-viewer-command")
-    public void handleShowViewerCommand(boolean flag) {
-        frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
-        ActionManager.getInstance().setEnabled("new-command", false);
-    }
+    
     @Action("show-query-command")
     public void handleShowQueryFormCommand(boolean flag) {
         frame.setVisiblePanel(frame.QUERY_FROM_PANEL);
@@ -57,6 +58,13 @@ public class GeneralActionHandler {
         frame.setVisiblePanel(frame.PAINT_PANEL);
         ActionManager.getInstance().setEnabled("new-command", true);
     }
+    
+    @Action("show-viewer-command")
+    public void handleShowViewerCommand(boolean flag) {
+        frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
+        ActionManager.getInstance().setEnabled("new-command", false);
+    }
+    
     @Action("exit-command")
     public void handleExit(){
         DataTapFactory.close();
@@ -75,7 +83,7 @@ public class GeneralActionHandler {
             BufferedImage image = pp.getImage();
             if(image !=null)
                 try {
-                    ImageIO.write(image,"png",f);
+                    ImageIO.write(image,"jpg",f);
                     frame.setStatusText("saved image to " + f.getAbsolutePath());
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -88,5 +96,69 @@ public class GeneralActionHandler {
         PaintPanel  pp =(PaintPanel) frame.getPanel(frame.PAINT_PANEL);
         boolean created =  pp.createNewPaintBoard();
         ActionManager.getInstance().setEnabled("save-command",created);
+    }
+    @Action("ranking-command")
+    public void hanldeRankingAction(boolean bool){
+        JThumbnailPanel panel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        panel.setRankingEnabled(bool);
+    }
+    @Action("statusbar-command")
+    public void handleStatusBarAction(boolean flag){
+        frame.getStatusBar().setVisible(flag);
+    }
+    @Action("view-result-command")
+    public void handleVieResult(){
+        handleQueryResult();
+    }
+    @Action("query-result-command")
+    public void handleQueryResult(){
+        JThumbnailPanel tpanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        QueryResult result = (QueryResult) tpanel.getImageList().getSelectedValue();
+        QueryFormPanel qpanel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
+        qpanel.setSampleFile(new File(result.getImage()));
+        frame.setVisiblePanel(frame.QUERY_FROM_PANEL);
+        tpanel = null;
+        qpanel = null;
+    }
+    @Action("vote-result-command")
+    public void hanldeVoteResult(){
+        JThumbnailPanel tpanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        QueryResult result = (QueryResult) tpanel.getImageList().getSelectedValue();
+        double value = result.getDistance();
+        double round = getScaled(value,1);
+        if(value == round && value !=1.0)
+            round += 0.1;
+        result.setDistance(round);
+        tpanel.getImageList().repaint();
+    }
+    
+    
+    public static  double getScaled(double value, int scale) {
+        double result = value; //default: unscaled
+        //use BigDecimal String constructor as this is the only exact way for double values
+        result = new BigDecimal(""+value).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+        
+        return result;
+    }
+    
+    @Action("pageup-command")
+    public void handlePageUp(){
+        JThumbnailPanel tpanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        ImageListModel model = tpanel.getListModel();
+        if(model.canPageUp()){
+            model.pageUp();
+        }
+        tpanel.changePageButtonState();
+    }
+    @Action("pagedown-command")
+    public void handlePageDown(){
+        JThumbnailPanel tpanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
+        ImageListModel model =  tpanel.getListModel();
+        
+        if(model.canPageDown()){
+            model.pageDown();
+            
+        }
+        tpanel.changePageButtonState();
     }
 }

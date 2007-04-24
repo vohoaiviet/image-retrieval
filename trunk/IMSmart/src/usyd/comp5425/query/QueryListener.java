@@ -20,5 +20,5 @@ public interface QueryListener extends EventListener{
     
     public void queryStarted(String text);
     public void queryFinished(String text);
-    public void itemFound(List<String> list);
+    public void itemFound(List<QueryResult> list);
 }

@@ -61,13 +61,15 @@ public class IndexActionHandler {
         if(jfc.showOpenDialog(frame)== JFileChooser.APPROVE_OPTION){
             File file  = jfc.getSelectedFile();
             list.add(file);
+            file = null;
         }
+        jfc = null;
         if(worker == null && (!list.isEmpty())){
             ActionManager.getInstance().setEnabled("open-command",false);
             worker = new SwingWorker<Object,String>(){
                 protected Object doInBackground() throws Exception {
-                    DataTap  tap = DataTapFactory.createDataTap();
                     System.out.println("start indexing images");
+                    DataTap  tap = DataTapFactory.createDataTap();
                     while(true){
                         if(list.isEmpty() || worker.isCancelled()){
                             break;
@@ -92,6 +94,7 @@ public class IndexActionHandler {
                                             failed = true;
                                         }
                                     }
+                                    info = null;
                                 }
                                 if(!failed){
                                     publish("Successfully indexed "+ file.getName());
@@ -103,7 +106,6 @@ public class IndexActionHandler {
                             }
                         }
                         try {
-                            System.gc();
                             Thread.sleep(300L);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
@@ -150,13 +152,13 @@ public class IndexActionHandler {
             info.setImage(getImagePath(file));
             info.setVector(module.getFeatureVector(image));
             features.add(info);
+            moduleName = null;
             info = null;
             module = null;
         }
         image = null;
         factory = null;
         features.trimToSize();
-        System.gc();
         return features;
     }
     public BufferedImage readImage(File file){

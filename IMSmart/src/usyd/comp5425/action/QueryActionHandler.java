@@ -40,7 +40,6 @@ public class QueryActionHandler implements QueryListener{
     
     private  ImageAppFrame frame;
     private  JThumbnailPanel thumbPanel;
-    private  QueryManager manager;
     private  LRUCache<String,BufferedImage> cache;
     private  String pattern = "Found image about {0} in {1} seconds";
     private  long  startTime;
@@ -48,11 +47,8 @@ public class QueryActionHandler implements QueryListener{
     public QueryActionHandler(ImageAppFrame frame) {
         this.frame = frame;
         ActionManager.getInstance().registerActionHandler(this);
-        manager = QueryManager.getInstance();
-        manager.addQueryListener(this);
+        QueryManager.getInstance().addQueryListener(this);
         cache = new LRUCache<String,BufferedImage>(200);
-        ImageIO.setCacheDirectory(new File(System.getProperty("user.home")));
-        ImageIO.setUseCache(true);
         thumbPanel =(JThumbnailPanel) frame.getPanel(frame.THUMBNAIL_PANEL);
     }
     @Action("query-command")
@@ -63,7 +59,7 @@ public class QueryActionHandler implements QueryListener{
                 QueryFormPanel panel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
                 File file = panel.getSampleFile();
                 if(file !=null) {
-                    manager.query(panel.getSelectedFeatures(),file);
+                    QueryManager.getInstance().query(panel.getSelectedFeatures(),file);
                 }
                 panel = null;
                 return null;
@@ -79,6 +75,7 @@ public class QueryActionHandler implements QueryListener{
             QueryFormPanel panel =(QueryFormPanel) frame.getPanel(frame.QUERY_FROM_PANEL);
             panel.setSampleFile(file);
             panel = null;
+            file = null;
         }
         jfc = null;
     }
@@ -93,7 +90,6 @@ public class QueryActionHandler implements QueryListener{
                 frame.setVisiblePanel(frame.THUMBNAIL_PANEL);
             }
         });
-        System.gc();
     }
     public void queryFinished(String text) {
     }
@@ -104,7 +100,7 @@ public class QueryActionHandler implements QueryListener{
         SwingWorker worker = new SwingWorker<Object, Object>(){
             @Override
             protected Object doInBackground() throws Exception {
-                manager.luckyQuery();
+                QueryManager.getInstance().luckyQuery();
                 return null;
             }
             @Override

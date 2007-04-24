@@ -36,14 +36,14 @@ public class GlobalColorHistogram extends FeatureModule{
         }
         
         for(int i=0 ; i<64 ; i++){
-            vector.add(round((histogram[i]/size)));
+            vector.add(round(histogram[i]/size));
         }
         histogram = null;
         return vector;
     }
     
     public double getThreshold() {
-        return 0.05d;
+        return 0.37d;
     }
     
     public int getFeatureLength() {

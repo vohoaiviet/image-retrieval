@@ -31,7 +31,7 @@ import usyd.comp5425.ui.ImageAppFrame;
 public class Application {
     public static void main(String args[]) {
         System.setProperty("sun.awt.noerasebackground", "true");
-        System.setProperty("app.version", "1.2");
+        System.setProperty("app.version", "1.0");
         try {
             JFrame.setDefaultLookAndFeelDecorated(true);
             UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel");

@@ -44,8 +44,22 @@ public class FeatureTesting {
         }
         
     }
+    
+    public static void testColorMoment(){
+        File sample = new File("C:/corel10ext/corel10ext/car_rare/29032.jpg");
+        File sample2 = new File("C:/corel10ext/corel10ext/car_rare/29033.jpg");
+        ColorMomentFeatureModule module = new ColorMomentFeatureModule();
+        Vector<Double> d = module.getFeatureVector(readImage(sample));
+        System.out.println(d);
+       Vector<Double>  dd = module.getFeatureVector(readImage(sample2));
+       System.out.println(dd);
+       double diff = module.compareFeatureVector(d,dd);
+       System.out.println("dff=" + diff);
+        
+    }
     public static void main(String[] args) {
-        testGlobalColor();
+        //testGlobalColor();
+        testColorMoment();
     }
     public static BufferedImage readImage(File file){
         try {

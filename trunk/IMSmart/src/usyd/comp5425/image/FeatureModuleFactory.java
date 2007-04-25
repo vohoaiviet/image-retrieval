@@ -26,6 +26,7 @@ public class FeatureModuleFactory {
     private FeatureModuleFactory() {
         
         props.setProperty("AverageRGB","usyd.comp5425.image.AverageRGBModule");
+        props.setProperty("Color_Moments","usyd.comp5425.image.ColorMomentFeatureModule");
         props.setProperty("Cooccurence","usyd.comp5425.image.CooccurenceModule");
         props.setProperty("Local_Color_Histogram","usyd.comp5425.image.LocalColorHistogram");
         props.setProperty("Global_Color_Histogram","usyd.comp5425.image.GlobalColorHistogram");

@@ -61,7 +61,7 @@ public abstract class FeatureModule {
         return getFeatureVector(rgb, image.getHeight(),image.getWidth(),new int [0],0 ,0.1, getFeatureLength());
     }
     public double round(double value){
-        int decimalPlace = 2;
+      //  int decimalPlace = 2;
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(2,BigDecimal.ROUND_UP);
         return (bd.doubleValue());

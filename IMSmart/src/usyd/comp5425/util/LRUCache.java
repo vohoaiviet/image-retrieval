@@ -1,10 +1,14 @@
 /*
  * LRUCache.java
  *
- * Created on 17 April 2007, 00:04
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 package usyd.comp5425.util;
@@ -16,7 +20,7 @@ import java.util.Map;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Yuezhong Zhang  SID:305275631
  */
 
 

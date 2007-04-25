@@ -1,9 +1,14 @@
 /*
  * PaintPanel.java
  *
- * Created on 7 April 2007, 14:45
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.ui;
 
 import java.awt.Color;
@@ -13,7 +18,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author  Yuezhong Zhang
+ * @author  Yuezhong Zhang SID:305275631
  */
 public class PaintPanel extends javax.swing.JPanel {
     

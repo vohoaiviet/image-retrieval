@@ -1,12 +1,14 @@
 /*
  * CannyEdgeDetectModule.java
  *
- * Created on 24 April 2007, 23:34
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.image;
 
 import java.awt.Image;
@@ -14,7 +16,12 @@ import java.util.Vector;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Yuezhong Zhang   SID:305275631
+ */
+/**
+ *  I'm stucked at here, this is incompleted, doesn't why it not work
+ * 
+ *   FUCK!>>>>.
  */
 public class CannyEdgeDetectModule  extends FeatureModule {
     final float ORIENT_SCALE = 40F;

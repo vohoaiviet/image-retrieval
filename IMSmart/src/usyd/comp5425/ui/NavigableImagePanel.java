@@ -1,10 +1,5 @@
 /*
  * NavigableImagePanel.java
- *
- * Created on 23 April 2007, 23:10
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
 
 package usyd.comp5425.ui;

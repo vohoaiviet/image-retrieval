@@ -1,10 +1,14 @@
 /*
  * FeatureExtractionFactory.java
  *
- * Created on 31 March 2007, 16:46
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 package usyd.comp5425.image;
@@ -17,7 +21,7 @@ import java.util.Properties;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Yuezhong Zhang  SID:305275631
  */
 public class FeatureModuleFactory {
     private  static FeatureModuleFactory factory;

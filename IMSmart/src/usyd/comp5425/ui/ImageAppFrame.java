@@ -1,9 +1,14 @@
 /*
  * ImageAppFrame.java
  *
- * Created on 7 April 2007, 14:34
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.ui;
 
 import com.sun.jaf.ui.ActionManager;
@@ -17,7 +22,7 @@ import usyd.comp5425.ui.imageviewer.JThumbnailPanel;
 
 /**
  *
- * @author  Yuezhong Zhang
+ * @author  Yuezhong Zhang  SID:305275631
  */
 public class ImageAppFrame extends JFrame {
     

@@ -1,9 +1,14 @@
 /*
  * ResultListCellRenderer.java
  *
- * Created on 24 April 2007, 12:03
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.ui.imageviewer;
 
 import java.awt.Color;
@@ -16,7 +21,7 @@ import usyd.comp5425.query.QueryResult;
 
 /**
  *
- * @author  Yuezhong Zhang
+ * @author  Yuezhong Zhang  SID:305275631
  */
 public class ResultListCellRenderer extends javax.swing.JPanel  implements ListCellRenderer {
     /** Creates new form ResultListCellRenderer */

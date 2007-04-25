@@ -1,17 +1,19 @@
 /*
  * Rankable.java
  *
- * Created on 24 April 2007, 11:24
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.query;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Yuezhong Zhang  SID:305275631
  */
 public interface Rankable extends Comparable{
     

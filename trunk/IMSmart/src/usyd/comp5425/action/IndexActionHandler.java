@@ -1,10 +1,13 @@
 /*
  * IndexActionHandler.java
+ 
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
  *
- * Created on 14 April 2007, 17:37
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 package usyd.comp5425.action;
@@ -33,7 +36,7 @@ import usyd.comp5425.util.ImageFileFilter;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Yuezhong Zhang SID:305275631
  */
 public class IndexActionHandler {
     private Logger logger = Logger.getLogger(IndexActionHandler.class.getName());

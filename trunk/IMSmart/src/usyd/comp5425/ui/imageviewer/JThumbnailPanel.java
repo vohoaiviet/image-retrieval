@@ -1,9 +1,14 @@
 /*
  * JThumbnailPanel.java
  *
- * Created on 7 April 2007, 14:20
+ *  Copyright (C) 2007 COMP5425 Multimedia Storage, Retrieval and Delivery
+ *  The School of Information Technology
+ *  The University of Sydney
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 package usyd.comp5425.ui.imageviewer;
 
 import com.sun.jaf.ui.ActionManager;
@@ -12,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author  Yuezhong Zhang
+ * @author  Yuezhong Zhang  SID:305275631
  */
 public class JThumbnailPanel extends javax.swing.JPanel {
     public static final int THUMBSIZE_SMALL = 32;

@@ -1,10 +1,11 @@
 /*
- * GeometricMoment.java
+ *  Copyright (C) 2002  Multimedia Information Processing Laboratory
+ *  The Chinese University of Hong Kong
  *
- * Created on 31 March 2007, 16:25
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
 
 package usyd.comp5425.image;
@@ -14,7 +15,7 @@ import java.util.Vector;
 
 /**
  *
- * @author Yuezhong Zhang
+ * @author Chan Siu Kong, Gavin
  */
 public class GeometricMoment extends ShapeModule{
     private final int DEFAULT_P_VALUE = 1;	// Default value of order p

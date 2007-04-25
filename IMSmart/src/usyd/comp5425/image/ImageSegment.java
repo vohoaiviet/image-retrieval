@@ -1,15 +1,19 @@
 /*
- * ImageSegement.java
+ *  Copyright (C) 2002  Multimedia Information Processing Laboratory
+ *  The Chinese University of Hong Kong
  *
- * Created on 31 March 2007, 16:17
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
-
 package usyd.comp5425.image;
 import java.util.*;
 
+/**
+ *
+ * @author Chan Siu Kong, Gavin
+ */
 /**
   * It is a class used for image segmentation.
   * It has methods that can return the (x, y) of the largest image
